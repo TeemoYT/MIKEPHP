@@ -1,3 +1,5 @@
+<?php include("./server/server.php"); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,22 +11,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-    <script> 
-        $(function () {
-        var includes = $('[data-include]')
-        $.each(includes, function () {
-            var file = 'views/' + $(this).data('include') + '.php'
-            $(this).load(file)
-        })
-        })
-    </script>
+    
 <body>
-    <div data-include="navbar"></div>
-    <div class="container-xxl">
+    <?php include("./views/navbar.php"); ?>
 
-        <div class="mt-5" data-include="carft"></div>
-    </div>
-    <footer class="d-flex flex-wrap justify-content-center align-items-center py-3 my-4 border-top" data-include="footer"></footer>
 
     <script src="./js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
