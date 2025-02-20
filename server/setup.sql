@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(15),
-    role ENUM('customer', 'admin') DEFAULT 'customer',
+    role ENUM('user', 'admin','manager','','god') DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS products (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
-    size VARCHAR(50) NOT NULL, -- Thêm cột size
+    size VARCHAR(50) NOT NULL,
     image_url VARCHAR(255),
     category_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT,
     product_id INT,
-    size VARCHAR(50) NOT NULL, -- Thêm cột size
+    size VARCHAR(50) NOT NULL,
     quantity INT NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
@@ -200,8 +200,8 @@ is_default = VALUES(is_default);
 
 -- Cập nhật đơn hàng
 INSERT INTO orders (id, user_id, address_id, total, status_id) VALUES
-(1, 1, 1, 270.00, 2), -- Đơn hàng đang xử lý
-(2, 2, 2, 150.00, 1) -- Đơn hàng đang chờ xử lý
+(1, 1, 1, 270.00, 2),
+(2, 2, 2, 150.00, 1) 
 ON DUPLICATE KEY UPDATE 
 user_id = VALUES(user_id), 
 address_id = VALUES(address_id), 
