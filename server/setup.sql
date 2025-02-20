@@ -148,76 +148,155 @@ CREATE TABLE IF NOT EXISTS login_history (
     ip_address VARCHAR(45),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-
-INSERT IGNORE INTO categories (id, name, description) VALUES 
+-- Cập nhật dữ liệu bảng categories nếu đã tồn tại
+INSERT INTO categories (id, name, description) VALUES 
 (1, 'Sneakers', 'Giày thể thao'), 
 (2, 'Boots', 'Giày bốt'), 
-(3, 'Sandals', 'Dép và sandal');
+(3, 'Sandals', 'Dép và sandal')
+ON DUPLICATE KEY UPDATE name = VALUES(name), description = VALUES(description);
 
-INSERT IGNORE INTO products (id, name, description, price, size, category_id, image_url) VALUES 
+-- Cập nhật dữ liệu bảng products
+INSERT INTO products (id, name, description, price, size, category_id, image_url) VALUES 
 (1, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00, '42', 1, 'nike_af1.jpg'),
 (2, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00, '43', 1, 'nike_af1.jpg'),
-(3, 'Adidas Ultraboost', 'Giày chạy bộ thoải mái', 150.00, '41', 1, 'adidas_ultraboost.jpg');
+(3, 'Adidas Ultraboost', 'Giày chạy bộ thoải mái', 150.00, '41', 1, 'adidas_ultraboost.jpg')
+ON DUPLICATE KEY UPDATE 
+name = VALUES(name), 
+description = VALUES(description), 
+price = VALUES(price), 
+size = VALUES(size), 
+category_id = VALUES(category_id), 
+image_url = VALUES(image_url);
 
-INSERT IGNORE INTO inventory (product_id, size, stock) VALUES
+-- Cập nhật tồn kho (inventory)
+INSERT INTO inventory (product_id, size, stock) VALUES
 (1, '42', 50),
 (2, '43', 30),
-(3, '41', 20);
+(3, '41', 20)
+ON DUPLICATE KEY UPDATE stock = VALUES(stock);
 
-INSERT IGNORE INTO users (id, name, email, password, phone, role) VALUES 
+-- Cập nhật thông tin người dùng
+INSERT INTO users (id, name, email, password, phone, role) VALUES 
 (1, 'Nguyễn Văn A', 'nguyenvana@example.com', 'hashedpassword1', '0123456789', 'customer'),
-(2, 'Trần Thị B', 'tranthib@example.com', 'hashedpassword2', '0987654321', 'admin');
--- Thêm dữ liệu mẫu vào bảng addresses
-INSERT IGNORE INTO addresses (id, user_id, full_name, phone, address, city, country, is_default) VALUES
+(2, 'Trần Thị B', 'tranthib@example.com', 'hashedpassword2', '0987654321', 'admin')
+ON DUPLICATE KEY UPDATE 
+name = VALUES(name), 
+email = VALUES(email), 
+password = VALUES(password), 
+phone = VALUES(phone), 
+role = VALUES(role);
+
+-- Cập nhật địa chỉ người dùng
+INSERT INTO addresses (id, user_id, full_name, phone, address, city, country, is_default) VALUES
 (1, 1, 'Nguyễn Văn A', '0123456789', '123 Đường ABC, Phường X, Quận Y', 'Hà Nội', 'Vietnam', TRUE),
-(2, 2, 'Trần Thị B', '0987654321', '456 Đường DEF, Phường M, Quận N', 'TP. Hồ Chí Minh', 'Vietnam', TRUE);
+(2, 2, 'Trần Thị B', '0987654321', '456 Đường DEF, Phường M, Quận N', 'TP. Hồ Chí Minh', 'Vietnam', TRUE)
+ON DUPLICATE KEY UPDATE 
+full_name = VALUES(full_name), 
+phone = VALUES(phone), 
+address = VALUES(address), 
+city = VALUES(city), 
+country = VALUES(country), 
+is_default = VALUES(is_default);
 
--- Thêm dữ liệu mẫu vào bảng orders
-INSERT IGNORE INTO orders (id, user_id, address_id, total, status_id) VALUES
+-- Cập nhật đơn hàng
+INSERT INTO orders (id, user_id, address_id, total, status_id) VALUES
 (1, 1, 1, 270.00, 2), -- Đơn hàng đang xử lý
-(2, 2, 2, 150.00, 1); -- Đơn hàng đang chờ xử lý
+(2, 2, 2, 150.00, 1) -- Đơn hàng đang chờ xử lý
+ON DUPLICATE KEY UPDATE 
+user_id = VALUES(user_id), 
+address_id = VALUES(address_id), 
+total = VALUES(total), 
+status_id = VALUES(status_id);
 
--- Thêm dữ liệu mẫu vào bảng order_items
-INSERT IGNORE INTO order_items (id, order_id, product_id, quantity, price) VALUES
+-- Cập nhật chi tiết đơn hàng
+INSERT INTO order_items (id, order_id, product_id, quantity, price) VALUES
 (1, 1, 1, 1, 120.00),
 (2, 1, 2, 1, 150.00),
-(3, 2, 2, 1, 150.00);
+(3, 2, 2, 1, 150.00)
+ON DUPLICATE KEY UPDATE 
+order_id = VALUES(order_id), 
+product_id = VALUES(product_id), 
+quantity = VALUES(quantity), 
+price = VALUES(price);
 
--- Thêm dữ liệu mẫu vào bảng payments
-INSERT IGNORE INTO payments (id, order_id, payment_method, payment_status, transaction_id) VALUES
+-- Cập nhật thông tin thanh toán
+INSERT INTO payments (id, order_id, payment_method, payment_status, transaction_id) VALUES
 (1, 1, 'credit_card', 'completed', 'TXN123456'),
-(2, 2, 'paypal', 'pending', 'TXN987654');
+(2, 2, 'paypal', 'pending', 'TXN987654')
+ON DUPLICATE KEY UPDATE 
+order_id = VALUES(order_id), 
+payment_method = VALUES(payment_method), 
+payment_status = VALUES(payment_status), 
+transaction_id = VALUES(transaction_id);
 
--- Thêm dữ liệu mẫu vào bảng reviews
-INSERT IGNORE INTO reviews (id, user_id, product_id, rating, comment) VALUES
+-- Cập nhật đánh giá sản phẩm
+INSERT INTO reviews (id, user_id, product_id, rating, comment) VALUES
 (1, 1, 1, 5, 'Giày cực kỳ êm chân!'),
-(2, 2, 2, 4, 'Thiết kế đẹp, nhưng hơi chật.');
+(2, 2, 2, 4, 'Thiết kế đẹp, nhưng hơi chật.')
+ON DUPLICATE KEY UPDATE 
+user_id = VALUES(user_id), 
+product_id = VALUES(product_id), 
+rating = VALUES(rating), 
+comment = VALUES(comment);
 
-INSERT IGNORE INTO cart (id, user_id, product_id, quantity, size) VALUES
-(1, 1, 3, 1, 'M'),  -- Người dùng 1 thêm sản phẩm 3 vào giỏ hàng với size M
-(2, 2, 1, 2, 'L');  -- Người dùng 2 thêm sản phẩm 1 vào giỏ hàng với size L
+-- Cập nhật giỏ hàng
+INSERT INTO cart (id, user_id, product_id, quantity, size) VALUES
+(1, 1, 3, 1, 'M'), 
+(2, 2, 1, 2, 'L')
+ON DUPLICATE KEY UPDATE 
+user_id = VALUES(user_id), 
+product_id = VALUES(product_id), 
+quantity = VALUES(quantity), 
+size = VALUES(size);
 
--- Thêm dữ liệu mẫu vào bảng discount_codes
-INSERT IGNORE INTO discount_codes (id, code, discount_percentage, expiry_date, is_active) VALUES
+-- Cập nhật mã giảm giá
+INSERT INTO discount_codes (id, code, discount_percentage, expiry_date, is_active) VALUES
 (1, 'SUMMER10', 10.00, '2025-12-31', TRUE),
-(2, 'BLACKFRIDAY', 20.00, '2025-11-30', TRUE);
+(2, 'BLACKFRIDAY', 20.00, '2025-11-30', TRUE)
+ON DUPLICATE KEY UPDATE 
+code = VALUES(code), 
+discount_percentage = VALUES(discount_percentage), 
+expiry_date = VALUES(expiry_date), 
+is_active = VALUES(is_active);
 
--- Thêm dữ liệu mẫu vào bảng order_discounts
-INSERT IGNORE INTO order_discounts (id, order_id, discount_code_id, discount_amount) VALUES
-(1, 1, 1, 27.00);
+-- Cập nhật giảm giá cho đơn hàng
+INSERT INTO order_discounts (id, order_id, discount_code_id, discount_amount) VALUES
+(1, 1, 1, 27.00)
+ON DUPLICATE KEY UPDATE 
+order_id = VALUES(order_id), 
+discount_code_id = VALUES(discount_code_id), 
+discount_amount = VALUES(discount_amount);
 
--- Thêm dữ liệu mẫu vào bảng wishlist
-INSERT IGNORE INTO wishlist (id, user_id, product_id) VALUES
+-- Cập nhật danh sách yêu thích
+INSERT INTO wishlist (id, user_id, product_id) VALUES
 (1, 1, 2),
-(2, 2, 3);
+(2, 2, 3)
+ON DUPLICATE KEY UPDATE 
+user_id = VALUES(user_id), 
+product_id = VALUES(product_id);
 
--- Thêm dữ liệu mẫu vào bảng login_history
-INSERT IGNORE INTO login_history (id, user_id, login_time, ip_address) VALUES
+-- Cập nhật lịch sử đăng nhập
+INSERT INTO login_history (id, user_id, login_time, ip_address) VALUES
 (1, 1, NOW(), '192.168.1.1'),
-(2, 2, NOW(), '192.168.1.2');
+(2, 2, NOW(), '192.168.1.2')
+ON DUPLICATE KEY UPDATE 
+user_id = VALUES(user_id), 
+login_time = VALUES(login_time), 
+ip_address = VALUES(ip_address);
 
+-- Đảm bảo có ít nhất một đơn hàng mới
+INSERT INTO orders (user_id, address_id, total, status_id) VALUES (1, 1, 120.00, 1)
+ON DUPLICATE KEY UPDATE 
+user_id = VALUES(user_id), 
+address_id = VALUES(address_id), 
+total = VALUES(total), 
+status_id = VALUES(status_id);
 
-INSERT INTO orders (user_id, address_id, total, status_id) VALUES (1, 1, 120.00, 1);
-
+-- Cập nhật chi tiết đơn hàng mới
 INSERT INTO order_items (order_id, product_id, size, quantity, price) VALUES
-(1, 1, '42', 1, 120.00);
+(1, 1, '42', 1, 120.00)
+ON DUPLICATE KEY UPDATE 
+product_id = VALUES(product_id), 
+size = VALUES(size), 
+quantity = VALUES(quantity), 
+price = VALUES(price);
