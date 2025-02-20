@@ -66,9 +66,9 @@ body{
 }
 
 .panel-body-comment {
-    display: flexbox;
+    display: flex;
     position: absolute;
-    bottom: 25%;
+    bottom: 30%;
     width: 34%;
 }
 
