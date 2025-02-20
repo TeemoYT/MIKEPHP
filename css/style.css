@@ -68,7 +68,7 @@ body{
 .panel-body-comment {
     display: flex;
     position: absolute;
-    bottom: 25%;
+    bottom: 30%;
     width: 34%;
 }
 
@@ -218,4 +218,3 @@ img {
 .clearfix > a{
     margin-right: 14px;
 }
-

@@ -1,46 +1,34 @@
-<?php
-include("./server/setup.php");
-require_once "./module/userModule.php";
-
-// $userModule = new UserModule();
-
-// Thêm user mới
-// $userModule->createUser("lethay", "lethay@example.com");
-
-?>
 
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../MIKEPHP/css/style.css?v=<?php echo time(); ?>">
-
+    <link rel="stylesheet" href="../dashboard/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-
-<body>
-
-    <?php include("./views/admin.php"); ?>
     
+<body>
+<div class="dash d-flex">
+    <ul class="dash-board">
+        <li><a href="#"><img width="80" height="80" src="/MIKEPHP/img/Logo.png" href="#"></a></li>
+        <li>Thông tin tổng quan</li>
+        <li>Quản lý sản phẩm</li>
+        <li>Quản lý đơn hàng</li>
+        <li>Quản lý thanh toán</li>
+        <li>Báo cáo và phân tích</li>
+        <li>Thông báo</li>
+    </ul>
+    <div class="right" style="width: 100%;">
+        <?php include("./views/dashboard.php"); ?>
 
-    <?php
-
-    require_once __DIR__ . '/routes/web.php';
-
-    $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
-    ?>
-
-    <script src="js/script.js"></script>
-
-
-
+    </div>
+</div>
+    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
-
 </html>
