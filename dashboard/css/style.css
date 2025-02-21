@@ -6,15 +6,36 @@
     max-height: 916px;
     margin-bottom: 0;
     width: 20%;
-    padding-left: 0;
+
 
 }
 
 li{
     list-style: none;
-    text-align: left;
-    
+    text-align: left;  
     margin-top: 24px;
-    margin-right: 10%;
+    padding: 8px 38px;
 }
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 100px;
+}
+.column {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.amount {
+    font-size: 2rem;
+    color: #00a86b;
+    font-weight: bold;
+}
+
+
 
