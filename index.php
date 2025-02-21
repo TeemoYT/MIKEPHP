@@ -25,7 +25,7 @@ require_once "./module/userModule.php";
 
 <body>
 
-    <?php include("./views/admin.php"); ?>
+    <?php include("./views/navbar.php"); ?>
     
 
     <?php

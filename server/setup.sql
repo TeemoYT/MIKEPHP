@@ -36,7 +36,6 @@ CREATE TABLE IF NOT EXISTS products (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
-    size VARCHAR(50) NOT NULL,
     image_url VARCHAR(255),
     category_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -156,24 +155,15 @@ INSERT INTO categories (id, name, description) VALUES
 ON DUPLICATE KEY UPDATE name = VALUES(name), description = VALUES(description);
 
 -- Cập nhật dữ liệu bảng products
-INSERT INTO products (id, name, description, price, size, category_id, image_url) VALUES 
-(1, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00, '42', 1, 'nike_af1.jpg'),
-(2, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00, '43', 1, 'nike_af1.jpg'),
-(3, 'Adidas Ultraboost', 'Giày chạy bộ thoải mái', 150.00, '41', 1, 'adidas_ultraboost.jpg')
+INSERT INTO products (id, name, description, price, category_id, image_url) VALUES 
+(1, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00, 1, 'nike_af1.jpg'),
+(2, 'Adidas Ultraboost', 'Giày chạy bộ thoải mái', 150.00, 1, 'adidas_ultraboost.jpg')
 ON DUPLICATE KEY UPDATE 
 name = VALUES(name), 
 description = VALUES(description), 
 price = VALUES(price), 
-size = VALUES(size), 
 category_id = VALUES(category_id), 
 image_url = VALUES(image_url);
-
--- Cập nhật tồn kho (inventory)
-INSERT INTO inventory (product_id, size, stock) VALUES
-(1, '42', 50),
-(2, '43', 30),
-(3, '41', 20)
-ON DUPLICATE KEY UPDATE stock = VALUES(stock);
 
 -- Cập nhật thông tin người dùng
 INSERT INTO users (id, name, email, password, phone, role) VALUES 
@@ -241,7 +231,7 @@ comment = VALUES(comment);
 
 -- Cập nhật giỏ hàng
 INSERT INTO cart (id, user_id, product_id, quantity, size) VALUES
-(1, 1, 3, 1, 'M'), 
+(1, 1, 2, 1, 'M'), 
 (2, 2, 1, 2, 'L')
 ON DUPLICATE KEY UPDATE 
 user_id = VALUES(user_id), 
@@ -270,7 +260,7 @@ discount_amount = VALUES(discount_amount);
 -- Cập nhật danh sách yêu thích
 INSERT INTO wishlist (id, user_id, product_id) VALUES
 (1, 1, 2),
-(2, 2, 3)
+(2, 2, 1)
 ON DUPLICATE KEY UPDATE 
 user_id = VALUES(user_id), 
 product_id = VALUES(product_id);
@@ -283,20 +273,7 @@ ON DUPLICATE KEY UPDATE
 user_id = VALUES(user_id), 
 login_time = VALUES(login_time), 
 ip_address = VALUES(ip_address);
+ALTER TABLE products DROP COLUMN IF EXISTS slug;
+ALTER TABLE products ADD COLUMN slug VARCHAR(255) UNIQUE;
 
--- Đảm bảo có ít nhất một đơn hàng mới
-INSERT INTO orders (user_id, address_id, total, status_id) VALUES (1, 1, 120.00, 1)
-ON DUPLICATE KEY UPDATE 
-user_id = VALUES(user_id), 
-address_id = VALUES(address_id), 
-total = VALUES(total), 
-status_id = VALUES(status_id);
 
--- Cập nhật chi tiết đơn hàng mới
-INSERT INTO order_items (order_id, product_id, size, quantity, price) VALUES
-(1, 1, '42', 1, 120.00)
-ON DUPLICATE KEY UPDATE 
-product_id = VALUES(product_id), 
-size = VALUES(size), 
-quantity = VALUES(quantity), 
-price = VALUES(price);
