@@ -218,3 +218,10 @@ img {
 .clearfix > a{
     margin-right: 14px;
 }
+
+button:disabled.btn.btn-light,
+button[disabled]{
+  border: 2px solid #ffa8a8;
+  background-color: #ffffff;
+  color: #ffa8a8;
+}

@@ -7,17 +7,29 @@ class ProductsModule extends Module {
         parent::__construct("products");
     }
 
-    public function getAll() {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->table}");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    public function getProductBySlug($slug) {
+    public function getProductByItem($slug) {
     
-        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE slug = :slug");
+        $stmt = $this->db->prepare("SELECT name,description,price FROM {$this->table} WHERE slug = :slug");
         $stmt->bindParam(':slug', $slug, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+
+    public function getProductByImage($slug) {
+        $stmt = $this->db->prepare("SELECT image_json, image_url FROM {$this->table} WHERE slug = :slug");
+        $stmt->bindParam(':slug', $slug, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC); 
+    }
+
+    public function getProductBySize($slug) {
+        $stmt = $this->db->prepare("SELECT size_json FROM {$this->table} WHERE slug = :slug");
+        $stmt->bindParam(':slug', $slug, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC); 
+    }
+    
+
 }
 ?>

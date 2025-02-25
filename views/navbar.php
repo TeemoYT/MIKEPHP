@@ -71,7 +71,7 @@
       <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
 
       <span class=" me-2 ">
-        <a href="#" class="nav-link py-2 px-0 px-lg-2">
+        <a href="/MIKEPHP/login" class="nav-link py-2 px-0 px-lg-2">
           <i class="fa fa-user-o" aria-hidden="true"></i>
         </a>
       </span>

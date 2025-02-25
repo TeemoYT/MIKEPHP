@@ -1,17 +1,62 @@
-
 <div class="container">
   <div class="row">
     <div class="col-6">
       <div class="row">
         <div class="col-10">
-          <img src="/MIKEPHP/img/af1.webp" class=" img-thumbnail" style="width: 100%;" alt="">
+          <?php
+          require_once __DIR__ . "/../module/productModule.php";
+          $productsModule = new ProductsModule();
+
+
+          $path = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+          $slug = end($path);
+
+          $productImage = $productsModule->getProductByImage($slug);
+          $productSizeJson = $productsModule->getProductBySize($slug);
+          $productItem=$productsModule->getProductByItem($slug);
+          $sizeJson ;
+          $imageJson;
+          $imageUrl;
+          $imageFullPath;
+          if ($productImage) {
+            $imageJson = json_decode($productImage['image_json'], true) ?? [];
+            $imageUrl = "/MIKEPHP/img/" . $productImage['image_url'];
+            $sizeJson = json_decode($productSizeJson['size_json'], true) ?? [];
+            $imageFullPath = __DIR__ . "/../img/". $productImage['image_url'];
+            if(!file_exists($imageFullPath)){
+              $imageUrl="/MIKEPHP/img/default.png";
+            }
+
+            
+          } else {
+            $imageJson = '[]';
+            $imageUrl = "/MIKEPHP/img/default.jpg";
+          }
+
+          ?>
+          <img src="<?php echo htmlspecialchars($imageUrl); ?>" class=" img-thumbnail" style="width: 100%;" alt="">
         </div>
 
         <div class="col-2">
-          <div class="row"><img style="width: 150px;" src="/MIKEPHP/img/jordan1.webp" alt=""></div>
-          <div class="row"><img style="width: 150px;" src="/MIKEPHP/img/jordan2.webp" alt=""></div>
-          <div class="row"><img style="width: 150px;" src="/MIKEPHP/img/jordan3.webp" alt=""></div>
-          <div class="row"><img style="width: 150px;" src="/MIKEPHP/img/jordan4.webp" alt=""></div>
+          <?php
+          $imagePath;
+          $imageFullPath;
+
+
+          foreach ($imageJson as $row) {
+            $imagePath = "/MIKEPHP/img/" . $row;
+            $imageFullPath = __DIR__ . "/../img/" . $row;
+
+            if (empty($row) || !file_exists($imageFullPath)) {
+              $imagePath = "/MIKEPHP/img/default.png";
+            }
+
+
+          ?>
+            <div class="row"><img style="width: 150px;" src="<?php echo $imagePath; ?>" alt=""></div>
+
+          <?php } ?>
+
         </div>
       </div>
     </div>
@@ -69,49 +114,62 @@
     <div>
       <tr>
         <td>
-          <div><h4>mall inline badgegiày af1 thể thao nam nữ thiết kế bởi ZIARA BẢN FULL trăng dễ phối đồ full box bill hót</h4></div>
+          <div>
+            
+            <h4><?php
+              echo $productItem["name"];
+            
+            ?></h4>
+          </div>
         </td>
         <td>
-          <div class="infor"><h3>₫294.000</h3></div>
+          <div class="infor">
+            <h3>₫<?php
+              echo $productItem["price"];
+            
+            ?></h3>
+          </div>
         </td>
         <td>
           <div class="flex flex-column">
             <section class="flex items-center" style="margin-bottom: 24px; align-items: baseline;">
-            <h6>Size</h6>
-            <div class="flex items-center">
-              <button type="button" class="btn btn-light">36</button>
-              <button type="button" class="btn btn-light">37</button>
-              <button type="button" class="btn btn-light">38</button>
-              <button type="button" class="btn btn-light">39</button>
-              <button type="button" class="btn btn-light">40</button>
-              <button type="button" class="btn btn-light">41</button>
-              <button type="button" class="btn btn-light">42</button>
-              <button type="button" class="btn btn-light">43</button>
-              <button type="button" class="btn btn-light">44</button>
-            </div></section> 
-          
+              <h6>Size</h6>
+              <div class="flex items-center">
+                <?php
+                  $disable ='disabled';
+                foreach ($sizeJson as $size) {
+                  $sizeNumber = $size[0];
+                  $sizeActi = $size[1];
+                ?>
+                <button <?php echo $sizeActi ? '': $disable  ?> type="button" class="btn btn-light"> <?php echo $sizeNumber ?></button>
+
+                <?php } ?>
+
+              </div>
+            </section>
+
         </td>
         <td>
           <section class="flex items-center">
             <h6>Số Lượng</h6>
             <div class="flex items-center">
-            <button class="input-group-text">-</button>
-            <input class="form-control" style="max-width: 38px;" name="quantity" type="number" required="" min="1" max="50" step="1" placeholder="Số lượng" value="1">
-            <button class="input-group-text">+</button>
-          </div>
+              <button class="input-group-text">-</button>
+              <input class="form-control" style="max-width: 38px;" name="quantity" type="number" required="" min="1" max="50" step="1" placeholder="Số lượng" value="1">
+              <button class="input-group-text">+</button>
+            </div>
           </section>
-        </div>
-        </td>
-        <td>
-          <div class="high-button-section">
-            <button class="btn btn-1 btn-danger">
-              <i class="fa fa-cart-plus" aria-hidden="true"></i>
-              <span>Thêm Vào Giỏ Hàng</span>
-            </button>
-            <button class="btn btn-2 btn-danger">
-              <span>Mua</span>
-            </button>
-        </div>
-        </td>
-      </tr>
     </div>
+    </td>
+    <td>
+      <div class="high-button-section">
+        <button class="btn btn-1 btn-danger">
+          <i class="fa fa-cart-plus" aria-hidden="true"></i>
+          <span>Thêm Vào Giỏ Hàng</span>
+        </button>
+        <button class="btn btn-2 btn-danger">
+          <span>Mua</span>
+        </button>
+      </div>
+    </td>
+    </tr>
+  </div>

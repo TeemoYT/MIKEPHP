@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../core/Router.php';
 require_once __DIR__ . '/../controllers/Homecontrollers.php';
+
 require_once __DIR__ . '/../controllers/ProductsControllers.php';
 require_once __DIR__ ."/../module/module.php";
 
@@ -12,11 +13,17 @@ $nameProject = "MIKEPHP";
 $router->get('/' . $nameProject . '/', [HomeController::class, 'index']);
 
 
+$router->get('/' . $nameProject . '/admin', function(){
+    require_once __DIR__ . '/../dashboard/index.php';
+});
+
+
 $router->get('/' . $nameProject . '/about', function () {
     echo "Giới thiệu";
 });
 
 $router->get('/' . $nameProject . '/login', function () {
+    require_once __DIR__ . '/../views/navbar.php';
     require_once __DIR__ . '/../views/login.php';
 });
 
@@ -26,6 +33,7 @@ $router->post('/' . $nameProject . '/login', function () {
         $pass = isset($_POST["password"]) ? $_POST["password"] : "";
 
         if (empty($email) || empty($pass)) {
+            
             require_once __DIR__ . '/../views/login.php';
             exit(); 
         }

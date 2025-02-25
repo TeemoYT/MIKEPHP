@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(15),
-    role ENUM('user', 'admin','manager','','god') DEFAULT 'user',
+    role ENUM('user', 'admin', 'manager', 'god') DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -40,14 +40,6 @@ CREATE TABLE IF NOT EXISTS products (
     category_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
-);
-
-CREATE TABLE IF NOT EXISTS inventory (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT,
-    size VARCHAR(50) NOT NULL,
-    stock INT NOT NULL DEFAULT 0,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS order_status (
@@ -106,7 +98,7 @@ CREATE TABLE IF NOT EXISTS cart (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     product_id INT,
-    size VARCHAR(50) NOT NULL, -- Thêm cột size
+    size VARCHAR(50) NOT NULL,
     quantity INT NOT NULL DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -147,23 +139,39 @@ CREATE TABLE IF NOT EXISTS login_history (
     ip_address VARCHAR(45),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
 -- Cập nhật dữ liệu bảng categories nếu đã tồn tại
 INSERT INTO categories (id, name, description) VALUES 
 (1, 'Sneakers', 'Giày thể thao'), 
 (2, 'Boots', 'Giày bốt'), 
 (3, 'Sandals', 'Dép và sandal')
-ON DUPLICATE KEY UPDATE name = VALUES(name), description = VALUES(description);
+ON DUPLICATE KEY UPDATE 
+name = VALUES(name), 
+description = VALUES(description);
+
+ALTER TABLE products ADD COLUMN IF NOT EXISTS slug VARCHAR(255) UNIQUE;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS image_json TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS size_json TEXT;
 
 -- Cập nhật dữ liệu bảng products
-INSERT INTO products (id, name, description, price, category_id, image_url) VALUES 
-(1, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00, 1, 'nike_af1.jpg'),
-(2, 'Adidas Ultraboost', 'Giày chạy bộ thoải mái', 150.00, 1, 'adidas_ultraboost.jpg')
+INSERT INTO products (id, name, description, price, category_id, image_url, slug, image_json, size_json) VALUES 
+(1, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00, 1, 'jordan1.webp', 'nike-air-force-1', 
+   '["jordan1.webp","jordan2.webp","jordan3.webp","jordan4.webp"]',
+   '[["42", true], ["43", true], ["41", false]]'
+),
+(2, 'Adidas Ultraboost', 'Giày chạy bộ thoải mái', 150.00, 1, 'adidas_ultraboost.jpg', 'adidas-ultraboost',
+   '["jordan5.webp","jordan6.webp","jordan7.webp","af1.webp"]',
+   '[["42", false], ["43", true], ["41", false]]'
+)
 ON DUPLICATE KEY UPDATE 
 name = VALUES(name), 
 description = VALUES(description), 
 price = VALUES(price), 
 category_id = VALUES(category_id), 
-image_url = VALUES(image_url);
+image_url = VALUES(image_url),
+slug = VALUES(slug),
+image_json = VALUES(image_json),
+size_json = VALUES(size_json);
 
 -- Cập nhật thông tin người dùng
 INSERT INTO users (id, name, email, password, phone, role) VALUES 
@@ -273,7 +281,5 @@ ON DUPLICATE KEY UPDATE
 user_id = VALUES(user_id), 
 login_time = VALUES(login_time), 
 ip_address = VALUES(ip_address);
-ALTER TABLE products DROP COLUMN IF EXISTS slug;
-ALTER TABLE products ADD COLUMN slug VARCHAR(255) UNIQUE;
 
 
