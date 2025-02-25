@@ -36,6 +36,23 @@ li{
     color: #00a86b;
     font-weight: bold;
 }
-
-
-
+.describe{
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.btn-success{
+    width: 90px;
+}
+.btn-primary,
+.btn-danger{
+    margin-right: 4px;
+}
+.head-order{
+    justify-content: space-between;
+    
+}
+.head-order .filter{
+    margin-right: 130px;
+}
