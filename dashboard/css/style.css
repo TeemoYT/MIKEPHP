@@ -56,3 +56,9 @@ li{
 .head-order .filter{
     margin-right: 130px;
 }
+.table-body td{
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
