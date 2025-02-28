@@ -15,7 +15,7 @@
       <option value="status">⚡ Trạng thái</option>
     </select>
   </div>
-
+  <div style="overflow-y: auto; height: 300px;">  
   <table class="table" style="width: 100%; border-collapse: collapse; text-align: center; font-family: Arial, sans-serif;">
     <thead style="background-color: #f8f9fa; font-weight: bold;">
       <tr>
@@ -71,7 +71,127 @@
           </button>
         </td>
       </tr>
-
+      <tr style="border-bottom: 1px solid #ddd;">
+        <td>2</td>
+        <td>Nguyễn Văn B</td>
+        <td>0866443269</td>
+        <td>3 sản phẩm</td>
+        <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
+        <td>14/08/2025</td>
+        <td>MOMO</td>
+        <td><span style="color: orange;">Đang xử lý</span></td>
+        <td>
+          <button class="btn btn-primary" onclick="toggleDetail('detail-1')" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-eye" aria-hidden="true"></i> Xem
+          </button>
+          <button class="btn btn-danger" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
+          </button>
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+        <td>2</td>
+        <td>Nguyễn Văn B</td>
+        <td>0866443269</td>
+        <td>3 sản phẩm</td>
+        <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
+        <td>14/08/2025</td>
+        <td>MOMO</td>
+        <td><span style="color: orange;">Đang xử lý</span></td>
+        <td>
+          <button class="btn btn-primary" onclick="toggleDetail('detail-1')" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-eye" aria-hidden="true"></i> Xem
+          </button>
+          <button class="btn btn-danger" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
+          </button>
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+        <td>2</td>
+        <td>Nguyễn Văn B</td>
+        <td>0866443269</td>
+        <td>3 sản phẩm</td>
+        <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
+        <td>14/08/2025</td>
+        <td>MOMO</td>
+        <td><span style="color: orange;">Đang xử lý</span></td>
+        <td>
+          <button class="btn btn-primary" onclick="toggleDetail('detail-1')" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-eye" aria-hidden="true"></i> Xem
+          </button>
+          <button class="btn btn-danger" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
+          </button>
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+        <td>2</td>
+        <td>Nguyễn Văn B</td>
+        <td>0866443269</td>
+        <td>3 sản phẩm</td>
+        <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
+        <td>14/08/2025</td>
+        <td>MOMO</td>
+        <td><span style="color: orange;">Đang xử lý</span></td>
+        <td>
+          <button class="btn btn-primary" onclick="toggleDetail('detail-1')" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-eye" aria-hidden="true"></i> Xem
+          </button>
+          <button class="btn btn-danger" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
+          </button>
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+        <td>2</td>
+        <td>Nguyễn Văn B</td>
+        <td>0866443269</td>
+        <td>3 sản phẩm</td>
+        <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
+        <td>14/08/2025</td>
+        <td>MOMO</td>
+        <td><span style="color: orange;">Đang xử lý</span></td>
+        <td>
+          <button class="btn btn-primary" onclick="toggleDetail('detail-1')" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-eye" aria-hidden="true"></i> Xem
+          </button>
+          <button class="btn btn-danger" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
+          </button>
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ddd;">
+        <td>2</td>
+        <td>Nguyễn Văn B</td>
+        <td>0866443269</td>
+        <td>3 sản phẩm</td>
+        <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
+        <td>14/08/2025</td>
+        <td>MOMO</td>
+        <td><span style="color: orange;">Đang xử lý</span></td>
+        <td>
+          <button class="btn btn-primary" onclick="toggleDetail('detail-1')" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-eye" aria-hidden="true"></i> Xem
+          </button>
+          <button class="btn btn-danger" 
+                  style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
+            <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
+          </button>
+        </td>
+      </tr>
+      
       <!-- Bảng con (chi tiết đơn hàng) với hiệu ứng -->
       <tr id="detail-1" class="detail-row">
         <td colspan="8">
@@ -107,6 +227,7 @@
       </tr>
     </tbody>
   </table>
+  </div>
   <div id="pagination" style="display: flex; justify-content: center; margin-top: 20px;"></div>
 
   <style>
