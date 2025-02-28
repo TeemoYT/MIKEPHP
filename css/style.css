@@ -225,3 +225,25 @@ button[disabled]{
   background-color: #ffffff;
   color: #ffa8a8;
 }
+
+
+.checked{
+    color: rgb(255, 217, 0);
+}
+.box-tag{
+    margin-left: 10px;
+    padding: 1.5px;
+    background-color: rgba(128, 128, 128, 0.568);
+    width: 40px;
+    border-radius: 25px;
+    font-size: small;
+    text-align: center;
+    align-items: flex-start;
+    color: rgb(54, 54, 54);
+    margin-bottom: 0;
+    max-height: 24px;
+}
+
+.btn-light.active{
+    background-color: #898989;
+}
