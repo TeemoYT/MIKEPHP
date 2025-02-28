@@ -14,11 +14,22 @@ class Router {
     public function dispatch($requestUri, $requestMethod) {
         $route = explode("?", $requestUri)[0];
 
-        if (isset($this->routes[$requestMethod][$route])) {
-            call_user_func($this->routes[$requestMethod][$route]);
-        } else {
-            http_response_code(404);
-            echo "404 Not Found";
+        foreach ($this->routes[$requestMethod] as $pattern => $callback) {
+           
+            $patternRegex = preg_replace('/:[a-zA-Z0-9_]+/', '([^/]+)', $pattern);
+            $patternRegex = str_replace('/', '\/', $patternRegex);
+
+            
+            if (preg_match("/^$patternRegex$/", $route, $matches)) {
+                array_shift($matches);
+                return call_user_func_array($callback, $matches);
+            }
         }
+
+       
+        http_response_code(404);
+        echo "404 Not Found";
     }
 }
+
+?>
