@@ -13,8 +13,8 @@
 
           $productImage = $productsModule->getProductByImage($slug);
           $productSizeJson = $productsModule->getProductBySize($slug);
-          $productItem=$productsModule->getProductByItem($slug);
-          $sizeJson ;
+          $productItem = $productsModule->getProductByItem($slug);
+          $sizeJson;
           $imageJson;
           $imageUrl;
           $imageFullPath;
@@ -22,12 +22,10 @@
             $imageJson = json_decode($productImage['image_json'], true) ?? [];
             $imageUrl = "/MIKEPHP/img/" . $productImage['image_url'];
             $sizeJson = json_decode($productSizeJson['size_json'], true) ?? [];
-            $imageFullPath = __DIR__ . "/../img/". $productImage['image_url'];
-            if(!file_exists($imageFullPath)){
-              $imageUrl="/MIKEPHP/img/default.png";
+            $imageFullPath = __DIR__ . "/../img/" . $productImage['image_url'];
+            if (!file_exists($imageFullPath)) {
+              $imageUrl = "/MIKEPHP/img/default.png";
             }
-
-            
           } else {
             $imageJson = '[]';
             $imageUrl = "/MIKEPHP/img/default.jpg";
@@ -115,19 +113,19 @@
       <tr>
         <td>
           <div>
-            
+
             <h4><?php
-              echo $productItem["name"];
-            
-            ?></h4>
+                echo $productItem["name"];
+
+                ?></h4>
           </div>
         </td>
         <td>
           <div class="infor">
             <h3>₫<?php
-              echo $productItem["price"];
-            
-            ?></h3>
+                  echo $productItem["price"];
+
+                  ?></h3>
           </div>
         </td>
         <td>
@@ -136,12 +134,12 @@
               <h6>Size</h6>
               <div class="flex items-center">
                 <?php
-                  $disable ='disabled';
+                $disable = 'disabled';
                 foreach ($sizeJson as $size) {
                   $sizeNumber = $size[0];
                   $sizeActi = $size[1];
                 ?>
-                <button <?php echo $sizeActi ? '': $disable  ?> type="button" class="btn btn-light"> <?php echo $sizeNumber ?></button>
+                  <button <?php echo $sizeActi ? '' : $disable  ?> type="button" class="btn btn-light"> <?php echo $sizeNumber ?></button>
 
                 <?php } ?>
 

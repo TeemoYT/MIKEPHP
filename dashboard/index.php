@@ -21,14 +21,13 @@
         <li><a href="./views/dashboard.php">Thông tin tổng quan</a></li>
         <li><a href="./views/product.php">Quản lý sản phẩm</a></li>
         <li><a href="./views/order.php">Quản lý đơn hàng</a></li>
-        <li><a href="./views/order.php">Quản lý khách hàng</a></li>
-        <li><a href="./views/customer.php">Quản lý thanh toán</a></li>
-        <li><a href="./views/payment.php">Báo cáo và phân tích</a></li>
-        <li><a href="./views/report.php">Thông báo</a></li>
+        <li><a href="./views/customer.php">Quản lý khách hàng</a></li>
+        <li><a href="./views/payment.php">Quản lý thanh toán</a></li>
+        <li><a href="./views/reports.php">Báo cáo và phân tích</a></li>
     </ul>
     <div class="right" style="width: 100%;">
         <?php include(__DIR__ . '/views/navbar.php'); ?>
-        <?php include(__DIR__ . '/views/reports.php'); ?>
+        <?php include(__DIR__ . '/views/dashboard.php'); ?>
 
 <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 

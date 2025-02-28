@@ -1,6 +1,7 @@
+<div style="margin-left: 250px;">
+<div style="overflow-y: auto; height: 300px; ">
 <h2>Danh sách thanh toán</h2>
-<div style="overflow-y: auto; height: 300px;">
-<table class="table-payment" style="width: 100%; border-collapse: collapse; text-align: center; font-family: Arial, sans-serif;">
+<table class="table-payment " style="width: 100%; border-collapse: collapse; text-align: center; font-family: Arial, sans-serif;">
     <thead style="background-color: #f8f9fa; font-weight: bold;">
         <tr>
             <th>🏷️ Mã giao dịch</th>
@@ -10,6 +11,7 @@
             <th> ℹ️  Trạng thái</th>
             <th>📅 Ngày thanh toán</th>
             <th>🔄 Hoàn tiền</th>
+            <th>⚙️ Hành động</th>
         </tr>
     </thead>
     <tbody class="table-customer">
@@ -23,20 +25,22 @@
             <td>12/02/20225</td>
             <td class="sub-payment">
                 <button class="btn btn-primary btn-payment" 
-                    onclick="showCustomerDetail('PAY001', 'ORD123', 'Nguyễn Văn A', '2.500.000VND', 'Momo', 'Đã thanh toán' ,'12/02/20225', 'Thanh toán thành công qua visa')">
+                    onclick="showPaymentDetail('PAY001', 'ORD123', 'Nguyễn Văn A', '2.500.000VND', 'Momo', 'Đã thanh toán' ,'12/02/20225', 'Thanh toán thành công qua visa')">
                     <i class="fa fa-eye"></i> Xem
                 </button>
             </td>
         </tr>
+        
     </tbody>
 </table>
+</div>
 </div>
 <div id="paymentDetail" class="paymentDetail">
 <table>
     <h2>Thông tin khách hàng</h2>
     <p><strong>Mã giao dịch:</strong> <span id="detailTransaction"></span></p>
     <p><strong>Mã đơn hàng:</strong> <span id="detailOrder"></span></p>
-    <p><strong>Tên khách hàng:</strong> <span id="detailCustomer"></span></p>
+    <p><strong>Tên khách hàng:</strong> <span id="detailName"></span></p>
     <p><strong>Số tiền:</strong> <span id="detailAmount"></span></p>
     <p><strong>Trạng thái:</strong> <span id="detailStatus"></span></p>
     <p><strong>Ngày thanh toán:</strong> <span id="detailPaymentDate"></span></p>
@@ -46,7 +50,7 @@
 </div>
 
 <script>
-function showCustomerDetail(transaction, order, customer, amount, status, paymentDate, note) {
+function showPaymentDetail(transaction, order, customer, amount, status, paymentDate, note) {
     // Load CSS riêng cho trang chi tiết khách hàng
     let detailCSS = document.getElementById("detailCSS");
     if (!detailCSS) {
@@ -60,7 +64,7 @@ function showCustomerDetail(transaction, order, customer, amount, status, paymen
     // Cập nhật thông tin khách hàng
     document.getElementById("detailTransaction").innerText = transaction;
     document.getElementById("detailOrder").innerText = order;
-    document.getElementById("detailCustomer").innerText = customer;
+    document.getElementById("detailName").innerText = customer;
     document.getElementById("detailAmount").innerText = amount;
     document.getElementById("detailStatus").innerText = status;
     document.getElementById("detailPaymentDate").innerText = paymentDate;
