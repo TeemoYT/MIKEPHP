@@ -1,20 +1,24 @@
+<?php
+require_once __DIR__ . "/../module/productModule.php";
+$productsModule = new ProductsModule();
+$path = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+$slug = end($path);
+$productImage = $productsModule->getProductByImage($slug);
+$productSizeJson = $productsModule->getProductBySize($slug);
+$productItem = $productsModule->getProductByItem($slug);
+$sizeJson;
+$imageJson;
+$imageUrl;
+$imageFullPath;
+
+?>
 <div class="container">
   <div class="row">
     <div class="col-6">
       <div class="row">
         <div class="col-10">
           <?php
-          require_once __DIR__ . "/../module/productModule.php";
-          $productsModule = new ProductsModule();
-          $path = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
-          $slug = end($path);
-          $productImage = $productsModule->getProductByImage($slug);
-          $productSizeJson = $productsModule->getProductBySize($slug);
-          $productItem = $productsModule->getProductByItem($slug);
-          $sizeJson;
-          $imageJson;
-          $imageUrl;
-          $imageFullPath;
+
           if ($productImage) {
             $imageJson = json_decode($productImage['image_json'], true) ?? [];
             $imageUrl = "/MIKEPHP/img/" . $productImage['image_url'];
@@ -28,7 +32,7 @@
             $imageUrl = "/MIKEPHP/img/default.jpg";
           }
           ?>
-          <img src="<?php echo htmlspecialchars($imageUrl); ?>" class=" img-thumbnail" style="width: 100%;" alt="">
+          <img src="<?php echo htmlspecialchars($imageUrl) ?>" class=" img-thumbnail" style="width: 100%;" alt="">
         </div>
         <div class="col-2">
           <?php
@@ -174,7 +178,7 @@
             <h6>Số Lượng</h6>
             <div class="flex items-center">
               <button onclick="decrease()" class="input-group-text">-</button>
-              <input id="numberInput" class="form-control" style="max-width: 45px;" name="quantity" type="number" required="" min="1" max="50" step="1" placeholder="Số lượng" value="1">
+              <input onkeydown="return blockInvalidInput(event)" id="numberInput" class="form-control" style="max-width: 45px;" name="quantity" type="number" required="" min="1" max="50" step="1" placeholder="Số lượng" value="1">
               <button onclick="increase()" class="input-group-text">+</button>
             </div>
           </section>
@@ -220,7 +224,16 @@
 
       if (value < min) this.value = min;
       if (value > max) this.value = max;
+
     });
+
+    function selectSize(button) {
+
+      document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('btn-light');
+      });
+    }
 
     function selectSize(button) {
 
@@ -232,5 +245,12 @@
 
 
       button.classList.add('active');
+    }
+
+    function blockInvalidInput(event) {
+
+      if (["e", "E", "+", "-", ".", ","].includes(event.key)) {
+        event.preventDefault();
+      }
     }
   </script>
