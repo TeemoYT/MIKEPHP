@@ -69,12 +69,28 @@
     </div>
     <form class="d-flex" role="search">
       <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+      <?php
 
-      <span class=" me-2 ">
-        <a href="/MIKEPHP/login" class="nav-link py-2 px-0 px-lg-2">
-          <i class="fa fa-user-o" aria-hidden="true"></i>
+if (isset($_SESSION['user_id'])) { // Kiểm tra nếu có user đăng nhập
+    ?> 
+    <span class="me-2">
+        <a href="/MIKEPHP/user/account/profile" class="nav-link py-2 px-0 px-lg-2">
+            <i class="fa fa-user-o" aria-hidden="true"></i>
         </a>
-      </span>
+    </span>
+    <?php
+} else {
+    ?>
+    <span class="me-2">
+        <a href="/MIKEPHP/login" class="nav-link py-2 px-0 px-lg-2">
+            <i class="fa fa-user-o" aria-hidden="true"></i>
+        </a>
+    </span>
+    <?php
+}
+?>
+
+      
       <span class=" me-2">
         <a class="nav-link py-2 px-0 px-lg-2"  href="/MIKEPHP/cart">
           <i class="fa fa-cart-plus" aria-hidden="true"></i>
