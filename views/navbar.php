@@ -76,7 +76,7 @@
         </a>
       </span>
       <span class=" me-2">
-        <a class="nav-link py-2 px-0 px-lg-2" href="">
+        <a class="nav-link py-2 px-0 px-lg-2"  href="/MIKEPHP/cart">
           <i class="fa fa-cart-plus" aria-hidden="true"></i>
         </a>
       </span>

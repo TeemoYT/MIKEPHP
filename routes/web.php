@@ -3,10 +3,11 @@
 require_once __DIR__ . '/../core/Router.php';
 require_once __DIR__ . '/../controllers/Homecontrollers.php';
 
+
 require_once __DIR__ . '/../controllers/ProductsControllers.php';
 require_once __DIR__ ."/../module/module.php";
 require_once __DIR__ ."/../module/reviewsModule.php";
-
+require_once __DIR__ ."/../module/carftModule.php";
 
 $router = new Router();
 $nameProject = "MIKEPHP";
@@ -92,27 +93,35 @@ $router->post('/' . $nameProject . '/register', function () {
     }
 });
 
+$router->get('/'.$nameProject.'/cart',function(){
+    require_once __DIR__ . '/../views/navbar.php';
+    require_once __DIR__ . '/../views/carft.php';
+
+
+
+});
+
 $router->post('/' . $nameProject . "/product/:slug", function($slug) use ($nameProject) {
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["commentPost"])) {
         
-        // Lấy nội dung bình luận
+        
         $textComment = isset($_POST["textComment"]) ? trim($_POST["textComment"]) : "";
 
-        // Kiểm tra nếu bình luận trống
+       
         if (empty($textComment)) {
             exit("Bình luận không được để trống!");
         }
 
-        // Kiểm tra nếu người dùng đã đăng nhập
+      
         if (!isset($_SESSION["user_id"])) {
             exit("Bạn cần đăng nhập để bình luận.");
         }
 
-        // Lấy thông tin người dùng từ session
+       
         $userId = $_SESSION["user_id"];
         
         $product = new ProductsModule;
-        // Giả sử product_id được lấy từ slug hoặc một nguồn khác
+       
         $productId =$product->getProductIdFromSlug($slug);
 
 
@@ -125,7 +134,23 @@ $router->post('/' . $nameProject . "/product/:slug", function($slug) use ($nameP
         
     }
 });
+$router->post('/MIKEPHP/cart/delete', function(){
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'])) {
+        $itemId = $_POST['item_id'];
+        $cartModel = new CarftModule();
+        $cartModel->deleteCartItem($itemId);
+        header('location: /MIKEPHP/cart');
+        exit;
+    } else {
+        echo "Không có sản phẩm để xóa!";
+        exit;
+    }
+});
 
+$router->get('/'.$nameProject."/user/account/profile",function(){
+    require_once __DIR__ . '/../views/navbar.php';
+    require_once __DIR__ . '/../views/profile.php';
+});
 
 require_once __DIR__ . '/../server/server.php';
 
