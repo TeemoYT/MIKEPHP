@@ -1,3 +1,7 @@
+.navbar .container-fluid{
+  margin-left: 240px;
+}
+
 /* Định dạng chung */
 .dash-board {
   list-style: none;
@@ -8,6 +12,8 @@
   flex-direction: column;
   width: 250px;
   height: 100vh;
+  position: fixed; /*Giữ cố định khi cuộn */
+  z-index: 1000;
 }
 
 /* Định dạng từng mục */
@@ -17,6 +23,7 @@
 }
 
 .dash-board li a {
+  margin-left: 8px;
   text-decoration: none;
   color: #ecf0f1;
   font-size: 16px;
@@ -24,13 +31,15 @@
   align-items: center;
   transition: all 0.3s ease;
 }
-
+.dash-board li img{
+  margin-left: 45px;
+}
 .dash-board li a:hover {
   background: #34495e;
   padding-left: 25px;
 }
 
-/* Định dạng logo */
+/* product */
 .dash-board li:first-child {
   text-align: center;
   padding: 20px 0;
@@ -39,6 +48,22 @@
 .dash-board li:first-child img {
   max-width: 80px;
   border-radius: 50%;
+}
+/* Canh giữa header */
+.table{
+  margin-left: 240px;
+  max-width: 87%;
+}
+.table thead {
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+}
+.table th, .table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
 }
 
 li {
@@ -55,6 +80,7 @@ li {
 }
 .column {
   flex: 1;
+  margin-top: 100px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -87,11 +113,46 @@ li {
   margin-right: 130px;
 }
 .table-body td {
-  max-width: 150px;
+  max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* order */
+ /* Ẩn bảng chi tiết với animation */
+ #detailOrder .detailOrder {
+   transition: all 0.5s ease;
+   background-color: #f9f9f9;
+  }
+  
+  .detail-content {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Animation khi hiển thị */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover cho nút */
+.btn:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+.hidden.detailOrder{
+  display: block;
+  }
 /* customer */
 .table-custom {
   width: 100%;
@@ -187,6 +248,7 @@ td:nth-child(8) {
 }
 
 /* Chỉ áp dụng cho phần chi tiết khách hàng */
+.detailOrder,
 .customerDetail {
   max-width: 600px;
   margin: 20px auto;
@@ -274,7 +336,7 @@ display: block;
 display: block;
 }
 .table-payment {
-  width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
   text-align: center;
@@ -325,7 +387,7 @@ display: block;
   font-size: 16px;
 }
 
-/* notiffication */
+/* reports */
 .table-notifi {
   width: 100%;
   border-collapse: collapse;
@@ -371,8 +433,8 @@ display: block;
   z-index: 1000; /* Đảm bảo hiển thị trên cùng */
 }
 canvas {
-  width: 60% !important;
-  height: 30% !important;
+  width: 55% !important;
+  height: 25% !important;
 }
 
 

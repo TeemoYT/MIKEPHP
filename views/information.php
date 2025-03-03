@@ -1,15 +1,15 @@
-<?php 
-          require_once __DIR__ . "/../module/productModule.php";
-          $productsModule = new ProductsModule();
-          $path = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
-          $slug = end($path);
-          $productImage = $productsModule->getProductByImage($slug);
-          $productSizeJson = $productsModule->getProductBySize($slug);
-          $productItem = $productsModule->getProductByItem($slug);
-          $sizeJson;
-          $imageJson;
-          $imageUrl;
-          $imageFullPath;
+<?php
+require_once __DIR__ . "/../module/productModule.php";
+$productsModule = new ProductsModule();
+$path = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+$slug = end($path);
+$productImage = $productsModule->getProductByImage($slug);
+$productSizeJson = $productsModule->getProductBySize($slug);
+$productItem = $productsModule->getProductByItem($slug);
+$sizeJson;
+$imageJson;
+$imageUrl;
+$imageFullPath;
 
 ?>
 <div class="container">
@@ -134,8 +134,10 @@
       <tr>
         <td>
           <div>
+
             <h4><?php
                 echo $productItem["name"];
+
                 ?></h4>
           </div>
         </td>
@@ -152,20 +154,20 @@
             <section class="flex items-center" style="margin-bottom: 24px; align-items: baseline;">
               <h6>Size</h6>
               <div class="flex items-center">
-              <?php
-$disable = 'disabled';
-foreach ($sizeJson as $size) {
-  $sizeNumber = $size[0];
-  $sizeActi = $size[1];
-?>
-  <button 
-    <?php echo $sizeActi ? '' : $disable ?> 
-    type="button" 
-    class="btn btn-light size-btn"
-    onclick="selectSize(this)">
-    <?php echo $sizeNumber ?>
-  </button>
-<?php } ?>
+                <?php
+                $disable = 'disabled';
+                foreach ($sizeJson as $size) {
+                  $sizeNumber = $size[0];
+                  $sizeActi = $size[1];
+                ?>
+                  <button
+                    <?php echo $sizeActi ? '' : $disable ?>
+                    type="button"
+                    class="btn btn-light size-btn"
+                    onclick="selectSize(this)">
+                    <?php echo $sizeNumber ?>
+                  </button>
+                <?php } ?>
 
 
               </div>
@@ -197,52 +199,58 @@ foreach ($sizeJson as $size) {
   </div>
   <script>
     function decrease() {
-    let input = document.getElementById("numberInput");
-    let min = parseInt(input.min);
-    let value = parseInt(input.value) || min;
-    
-    if (value > min) {
+      let input = document.getElementById("numberInput");
+      let min = parseInt(input.min);
+      let value = parseInt(input.value) || min;
+
+      if (value > min) {
         input.value = value - 1;
+      }
     }
-}
 
-function increase() {
-    let input = document.getElementById("numberInput");
-    let max = parseInt(input.max);
-    let value = parseInt(input.value) || 1;
+    function increase() {
+      let input = document.getElementById("numberInput");
+      let max = parseInt(input.max);
+      let value = parseInt(input.value) || 1;
 
-    if (value < max) {
+      if (value < max) {
         input.value = value + 1;
+      }
     }
-}
-document.getElementById("numberInput").addEventListener("input", function() {
-    let min = parseInt(this.min);
-    let max = parseInt(this.max);
-    let value = parseInt(this.value);
+    document.getElementById("numberInput").addEventListener("input", function() {
+      let min = parseInt(this.min);
+      let max = parseInt(this.max);
+      let value = parseInt(this.value);
 
-    if (value < min) this.value = min;
-    if (value > max) this.value = max;
-    
-});
+      if (value < min) this.value = min;
+      if (value > max) this.value = max;
 
-function selectSize(button) {
-   
-    document.querySelectorAll('.size-btn').forEach(btn => {
-        btn.classList.remove('active');
-        btn.classList.add('btn-light'); 
     });
 
-   
+    function selectSize(button) {
 
-    button.classList.add('active'); 
-}
-
-function blockInvalidInput(event) {
-    
-    if (["e", "E", "+", "-",".",","].includes(event.key)) {
-        event.preventDefault();
+      document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('btn-light');
+      });
     }
-}
+
+    function selectSize(button) {
+
+      document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('btn-light');
+      });
 
 
-</script>
+
+      button.classList.add('active');
+    }
+
+    function blockInvalidInput(event) {
+
+      if (["e", "E", "+", "-", ".", ","].includes(event.key)) {
+        event.preventDefault();
+      }
+    }
+  </script>
