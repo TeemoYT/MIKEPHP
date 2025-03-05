@@ -282,4 +282,18 @@ user_id = VALUES(user_id),
 login_time = VALUES(login_time), 
 ip_address = VALUES(ip_address);
 
+CREATE DATABASE shop_db;
+USE shop_db;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fullname VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(15),
+    address TEXT,
+    password VARCHAR(255),
+    avatar VARCHAR(255) DEFAULT 'default.jpg'
+);
+
+
 
