@@ -6,6 +6,7 @@ require_once "./module/userModule.php";
 
 // Thêm user mới
 // $userModule->createUser("lethay", "lethay@example.com");
+session_start(); 
 
 ?>
 

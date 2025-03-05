@@ -32,7 +32,7 @@ $router->get('/' . $nameProject . '/register', function () {
     require_once __DIR__ . '/../views/navbar.php';
     require_once __DIR__ . '/../views/register.php';
 });
-session_start();
+
 $router->post('/' . $nameProject . '/login', function () {
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["dangnhap"])) {
         $email = trim($_POST["email"] ?? "");
@@ -47,7 +47,7 @@ $router->post('/' . $nameProject . '/login', function () {
         $loginResult = $userModule->login($email,$pass);
 
         if ($loginResult && password_verify($pass, $loginResult["password"])) {
-            
+            session_start();
             session_regenerate_id(true);
 
             
