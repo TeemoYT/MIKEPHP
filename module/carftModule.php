@@ -24,6 +24,26 @@ class CarftModule extends Module{
     
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getCartItem($userId, $productID, $productSize) {
+        $stmt = $this->db->prepare("SELECT * FROM cart WHERE user_id = ? AND product_id = ? AND size = ?");
+        $stmt->execute([$userId, $productID, $productSize]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function addCart($userId, $productID, $productSize, $quantity) {
+        $existingItem = $this->getCartItem($userId, $productID, $productSize);
+        
+        if ($existingItem) {
+            $newQuantity = $existingItem['quantity'] + $quantity;
+            $stmt = $this->db->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ? AND size = ?");
+            return $stmt->execute([$newQuantity, $userId, $productID, $productSize]);
+        } else {
+            
+            $stmt = $this->db->prepare("INSERT INTO cart (user_id, product_id, size, quantity) VALUES (?, ?, ?, ?)");
+            return $stmt->execute([$userId, $productID, $productSize, $quantity]);
+        }
+    }
     public function deleteCartItem($itemId) {
         $stmt = $this->db->prepare("DELETE FROM cart WHERE id = ?");
         return $stmt->execute([$itemId]);

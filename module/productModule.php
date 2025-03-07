@@ -12,7 +12,7 @@ class ProductsModule extends Module
     public function getProductByItem($slug)
     {
 
-        $stmt = $this->db->prepare("SELECT name,description,price FROM {$this->table} WHERE slug = :slug");
+        $stmt = $this->db->prepare("SELECT name,description,price,id FROM {$this->table} WHERE slug = :slug");
         $stmt->bindParam(':slug', $slug, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);

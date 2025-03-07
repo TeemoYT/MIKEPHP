@@ -86,7 +86,7 @@ $router->post('/' . $nameProject . '/register', function () {
         $loginResult = $userModule->createUser($fullName,$email, $pass,$numPhone);
 
         if ($loginResult) {
-           header("location:/MIKEPHP/");
+           header("location:/MIKEPHP/login");
         }
     } else {
         echo "Không có dữ liệu được gửi!";
@@ -96,9 +96,6 @@ $router->post('/' . $nameProject . '/register', function () {
 $router->get('/'.$nameProject.'/cart',function(){
     require_once __DIR__ . '/../views/navbar.php';
     require_once __DIR__ . '/../views/carft.php';
-
-
-
 });
 
 $router->post('/' . $nameProject . "/product/:slug", function($slug) use ($nameProject) {
@@ -109,12 +106,15 @@ $router->post('/' . $nameProject . "/product/:slug", function($slug) use ($nameP
 
        
         if (empty($textComment)) {
-            exit("Bình luận không được để trống!");
+
+            require_once __DIR__ . '/../views/navbar.php';
+            require_once __DIR__ . '/../views/information.php';
+            exit();
         }
 
       
         if (!isset($_SESSION["user_id"])) {
-            exit("Bạn cần đăng nhập để bình luận.");
+            header('location: /MIKEPHP/login');
         }
 
        
@@ -146,7 +146,43 @@ $router->post('/MIKEPHP/cart/delete', function(){
         exit;
     }
 });
+$router->post('/MIKEPHP/cart/add', function(){
+    if (!isset($_SESSION['user_id'])) {
+        echo json_encode(["status" => "error", "message" => "Bạn cần đăng nhập để thêm vào giỏ hàng"]);
+        exit();
+    }
 
+
+    $jsonData = file_get_contents("php://input");
+    $data = json_decode($jsonData, true);
+
+    if (!isset($data['id'], $data['size'], $data['quantity'])) {
+        echo json_encode(["status" => "error", "message" => "Thiếu thông tin sản phẩm"]);
+        exit();
+    }
+
+    $userId = $_SESSION['user_id'];
+    $productId = $data['id'];
+    $productSize = $data['size'];
+    $quantity = intval($data['quantity']);
+
+    if ($quantity <= 0) {
+        echo json_encode(["status" => "error", "message" => "Số lượng phải lớn hơn 0"]);
+        exit();
+    }
+
+
+    $cartModel = new CarftModule(); 
+    $success = $cartModel->addCart($userId, $productId, $productSize, $quantity);
+
+    if ($success) {
+        echo json_encode(["status" => "success", "message" => "Đã thêm vào giỏ hàng!"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Không thể thêm vào giỏ hàng"]);
+    }
+
+    exit();
+});
 $router->get('/'.$nameProject."/user/account/profile",function(){
     require_once __DIR__ . '/../views/navbar.php';
     require_once __DIR__ . '/../views/profile.php';
