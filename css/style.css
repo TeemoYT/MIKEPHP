@@ -247,3 +247,91 @@ button[disabled]{
 .btn-light.active{
     background-color: #898989;
 }
+/* profile */
+.profile-sidebar {
+    width: 275px;
+    background: #2196F3;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    min-height: 100vh; /* Đảm bảo chiều cao theo nội dung */
+}
+.profile-sidebar-user{
+    padding: 15px 0;
+    display: flex;
+}
+.profile-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 50px auto;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    align-items: flex-start; /* Đảm bảo các thành phần nằm cùng hàng */
+}
+.profile-avatar {
+    align-items: center;
+    margin: 6px;
+    
+}
+.profile-sidebar-info-btn{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+.profile-avatar-img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.profile-sidebar-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    transition: background 0.3s;
+}
+.profile-sidebar-info-btn:hover,
+.profile-sidebar-menu a:hover {
+    background: #1976D2;
+    border-radius: 5px;
+}
+.profile-main {
+    flex: 1;
+    padding: 30px;
+    background: white;
+    min-height: 100vh; /* Đảm bảo nội dung không bị đẩy xuống */
+}
+.profile-main h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    width: 100%;
+    background: #2196F3;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover {
+    background: #1976D2;
+}
+.stardust-dropdown-item-body{
+    margin-left: 20px;
+}
