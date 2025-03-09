@@ -27,9 +27,13 @@ CREATE TABLE IF NOT EXISTS addresses (
 CREATE TABLE IF NOT EXISTS categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
+    slug VARCHAR(255) UNIQUE NOT NULL,
     description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    parent_id INT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (parent_id) REFERENCES categories(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -141,13 +145,13 @@ CREATE TABLE IF NOT EXISTS login_history (
 );
 
 -- Cập nhật dữ liệu bảng categories nếu đã tồn tại
-INSERT INTO categories (id, name, description) VALUES 
-(1, 'Sneakers', 'Giày thể thao'), 
-(2, 'Boots', 'Giày bốt'), 
-(3, 'Sandals', 'Dép và sandal')
-ON DUPLICATE KEY UPDATE 
-name = VALUES(name), 
-description = VALUES(description);
+INSERT INTO categories (id, name, slug, description, parent_id) VALUES
+(1, 'Giá ưu đãi', 'gia-uu-dai', 'Sản phẩm giá ưu đãi', NULL),  
+(2, '50k-100k', '50k-100k', 'Sản phẩm giá từ 50k đến 100k', 1),  
+(3, '500k', '500k', 'Sản phẩm giá 500k', 1),  
+(4, 'Giày cao gót bít mũi', 'giay-cao-got-bit-mui', 'Loại giày cao gót bít mũi', 2),  
+(5, 'Cao gót sandal', 'cao-got-sandal', 'Loại giày cao gót sandal', 2);
+
 
 ALTER TABLE products ADD COLUMN IF NOT EXISTS slug VARCHAR(255) UNIQUE;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS image_json TEXT;
@@ -282,18 +286,6 @@ user_id = VALUES(user_id),
 login_time = VALUES(login_time), 
 ip_address = VALUES(ip_address);
 
-CREATE DATABASE shop_db;
-USE shop_db;
-
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    fullname VARCHAR(100),
-    email VARCHAR(100) UNIQUE,
-    phone VARCHAR(15),
-    address TEXT,
-    password VARCHAR(255),
-    avatar VARCHAR(255) DEFAULT 'default.jpg'
-);
 
 
 

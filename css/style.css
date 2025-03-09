@@ -30,6 +30,17 @@ display: block;
     pointer-events: none;
 }
 
+.dropdown > .dropdown-toggle:active,
+.dropend > .dropdown-toggle:active {
+    pointer-events: auto;
+}
+
+.main-link{
+    color: black;
+    text-decoration: none;
+    padding-left: 5px;
+    padding-right: 5px;
+}
 .col-2> .row{
     height: 100px;
     margin-bottom: 38px;
@@ -319,7 +330,6 @@ input, select {
     border-radius: 5px;
 }
 button {
-    width: 100%;
     background: #2196F3;
     color: white;
     padding: 10px;
