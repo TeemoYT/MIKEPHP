@@ -21,6 +21,7 @@ $router->get('/' . $nameProject . '/admin', function(){
 });
 
 
+
 $router->get('/' . $nameProject . '/about', function () {
     echo "Giới thiệu";
 });
