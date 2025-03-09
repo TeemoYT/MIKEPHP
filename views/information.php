@@ -11,6 +11,9 @@ $imageJson;
 $imageUrl;
 $imageFullPath;
 
+$cart;
+
+
 ?>
 <div class="container">
   <div class="row">
@@ -114,11 +117,11 @@ $imageFullPath;
           </div>
           <div class="panel">
             <div class="panel-body-comment">
-              <form id="commentForm" method="post">
+              <form id="commentForm" action="/MIKEPHP/product/<?php echo $slug; ?>" method="post">
                 <textarea name="textComment" id="textComment" class="form-control" style="max-height: 200px;" value="" rows="2"
                   placeholder="What are you thinking?"></textarea>
                 <div class="mar-top clearfix">
-                  <button name="commentPost" class="btn btn-sm btn-primary pull-right" type="submit"><i
+                  <button id="commentPost" name="commentPost" class="btn btn-sm btn-primary pull-right" type="submit"><i
                       class="fa fa-pencil fa-fw"></i> Share</button>
                   <a><i class="fa fa-camera" aria-hidden="true" href="#"></i></a>
                   <a><i class="fa fa-video-camera" aria-hidden="true" href="#"></i></a>
@@ -186,7 +189,7 @@ $imageFullPath;
     </td>
     <td>
       <div class="high-button-section">
-        <button class="btn btn-1 btn-danger">
+        <button class="btn btn-1 btn-danger" id="addToCart">
           <i class="fa fa-cart-plus" aria-hidden="true"></i>
           <span>Thêm Vào Giỏ Hàng</span>
         </button>
@@ -253,4 +256,73 @@ $imageFullPath;
         event.preventDefault();
       }
     }
+    document.getElementById("commentPost").onclick = function() {comment()};
+    function comment() {
+    let slug = window.location.pathname.split("/").pop();
+    let textComment = document.getElementById("textComment").value.trim();
+
+    if (!textComment) {
+        alert("Vui lòng nhập nội dung bình luận!");
+        return;
+    }
+
+    
+}
+
+
+
+
+    document.getElementById("addToCart").onclick = function() {addToCart()};
+
+
+    let  newItem={};
+    function addToCart() {
+      let isLoggedIn = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
+
+      if (!isLoggedIn) {
+        alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
+        window.location.href = "/MIKEPHP/login";
+        return;
+      }
+      let productName = "<?php echo addslashes($productItem['name']); ?>";
+      let productId = "<?php echo addslashes($productItem['id']); ?>";
+      let productPrice = "<?php echo addslashes($productItem['price']); ?>";
+      let productImageURL = "<?php echo addslashes($productImage['image_url']); ?>";
+      let selectedSize = document.querySelector('.size-btn.active') ? document.querySelector('.size-btn.active').textContent.trim() : "";
+      let quantity = parseInt(document.getElementById("numberInput").value);
+
+      if (!selectedSize) {
+        alert("Vui lòng chọn size!");
+        return;
+      }
+
+       newItem = {
+        id: productId,
+        name: productName,
+        price: productPrice,
+        size: selectedSize,
+        quantity: quantity,
+        image_url: productImageURL
+      };
+
+      fetch("/MIKEPHP/cart/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(newItem)
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert(data.message);
+        })
+        .catch(error => {
+          console.error("Lỗi khi thêm vào giỏ hàng:", error);
+        });
+
+    }
+
+
+
+
   </script>

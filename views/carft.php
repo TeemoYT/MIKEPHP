@@ -1,18 +1,61 @@
 <?php
 require_once __DIR__ . "/../module/carftModule.php";
 $carftModule = new CarftModule();
-$getCarft;
+$getCarft = [];
 $sumItem = 0;
+$productName;
+$productPrice;
+$productSize;
+$quantity;
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
-    $getCarft = $carftModule->getCart($userId);
-}
 
+  
+    if (isset($_COOKIE['cartItem'])) {
+        $decodedData = base64_decode($_COOKIE['cartItem']);
+        $cartData = json_decode($decodedData, true);
+    
+        if (!is_array($cartData)) {
+            setcookie("cartItem", "", time() - 3600, "/");
+            echo "Cookie đã bị xóa vì dữ liệu lỗi!";
+            exit;
+        }
+    
+        foreach ($cartData as $item) {
+            if (!is_array($item)) continue; 
+    
+            $productName = $item['name'] ?? '';
+            $productPrice = $item['price'] ?? 0;
+            $productSize = $item['size'] ?? '';
+            $quantity = $item['quantity'] ?? 1;
+            $image_url=$item['image_url']??'';
+            $productId=$item['id'];
+            $existingItem = $carftModule->getCart($userId, $productId, $productSize,$image_url);
+    
+            if (!$existingItem) {
+                setcookie("cartItem", "", time() - 3600, "/");
+                $carftModule->addCart($userId, $productId, $productSize, $quantity);
+            }
+        }
+    }
+    
+
+    
+    $getCarft = $carftModule->getCart($userId);
+
+} else {
+   
+    if (isset($_COOKIE['cartItem'])) {
+        $decodedData = base64_decode($_COOKIE['cartItem']);
+        $getCarft = json_decode($decodedData, true) ?? [];
+    } else {
+        $getCarft = [];
+    }
+}
 
 ?>
 
@@ -45,12 +88,12 @@ if (isset($_SESSION['user_id'])) {
                             <div>
                                 <div class=" d-flex justify-content-between text-align-baseline">
                                     <div>
-                                        <h6>Name:<?php echo  $item['name'] ?></h6>
+                                        <h6><?php echo  $item['name'] ?></h6>
                                     </div>
                                     <div class="input-group-sm d-flex">
-                                        <button onclick="decrease(<?php echo $index; ?>)" class="input-group-text">-</button>
-                                        <input onkeydown="return blockInvalidInput(event)" id="numberInput_<?php echo $index; ?>" class="form-control" style="max-width: 45px;" name="quantity" type="number" required min="1" max="50" step="1" placeholder="Số lượng" value="<?php echo $item['quantity']; ?>">
-                                        <button onclick="increase(<?php echo $index; ?>)" class="input-group-text">+</button>
+                                        
+                                        <span>Số lượng: <?php echo $item['quantity']; ?></span>
+                                        
                                     </div>
                                     <div>
                                         <h5><?php echo number_format($item['price'], 0, ',', '.'); ?> đ</h5>
@@ -60,11 +103,10 @@ if (isset($_SESSION['user_id'])) {
 
                             <div>
                                 <form action="/MIKEPHP/cart/delete" method="POST">
-                                <input type="hidden" name="item_id" value="<?php echo $item['id']; ?>">
+                                    <input type="hidden" name="item_id" value="<?php echo $item['id']; ?>">
                                     <div class="border-bottom pt-5 pb-2"></div>
                                     <div class="d-flex mt-1 justify-content-between">
-                                        <div class="mt-auto p-2"><span>Tình trạng: </span><span class="text-success">Còn
-                                                hàng</span></div>
+                                        <div class="mt-auto p-2"><span>Size: </span><span class="text-success"> <?php echo  $item['size'] ?></span></div>
                                         <button class="btn btn-outline-danger" onclick="deleteItem(<?php echo $item['id'] ?>, this)">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </button>
@@ -99,61 +141,14 @@ if (isset($_SESSION['user_id'])) {
 </div>
 
 <script>
-    function decrease(index) {
-        let input = document.getElementById("numberInput_" + index);
-        let min = parseInt(input.min);
-        let value = parseInt(input.value) || min;
 
-        if (value > min) {
-            input.value = value - 1;
-        }
-    }
-
-    function increase(index) {
-        let input = document.getElementById("numberInput_" + index);
-        let max = parseInt(input.max);
-        let value = parseInt(input.value) || 1;
-
-        if (value < max) {
-            input.value = value + 1;
-        }
-    }
-
-    document.querySelectorAll("input[id^='numberInput_']").forEach(input => {
-        input.addEventListener("input", function() {
-            let min = parseInt(this.min);
-            let max = parseInt(this.max);
-            let value = parseInt(this.value);
-
-            if (value < min) this.value = min;
-            if (value > max) this.value = max;
-        });
-    });
-
-
-    function selectSize(button) {
-
-        document.querySelectorAll('.size-btn').forEach(btn => {
-            btn.classList.remove('active');
-            btn.classList.add('btn-light');
-        });
-
-
-
-        button.classList.add('active');
-    }
-
-    function blockInvalidInput(event) {
-
-        if (["e", "E", "+", "-", ".", ","].includes(event.key)) {
-            event.preventDefault();
-        }
-    }
 
 
     function deleteItem(itemId, button) {
         if (!confirm("Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?")) return;
-
-
+        
     }
+
+
+
 </script>

@@ -1,16 +1,8 @@
 <?php
 include("./server/setup.php");
 require_once "./module/userModule.php";
-
-// $userModule = new UserModule();
-
-// Thêm user mới
-// $userModule->createUser("lethay", "lethay@example.com");
 session_start(); 
-
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,14 +17,7 @@ session_start();
 </head>
 
 <body>
-
-
-    <?php
-
-    require_once __DIR__ . '/routes/web.php';
-
-    $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
-    ?>
+<?php require_once __DIR__ . '/routes/web.php'; $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);?>
 
 
 

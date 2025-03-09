@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary ">
   <div class="container-fluid">
-    <a href="/MIKEPHP/"><img width="80" height="80" src="/MIKEPHP/img/Logo.png" ></a>
+    <a href="/MIKEPHP/"><img width="80" height="80" src="/MIKEPHP/img/Logo.png"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -69,30 +69,21 @@
     </div>
     <form class="d-flex" role="search">
       <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
-      <?php
-
-if (isset($_SESSION['user_id'])) { // Kiểm tra nếu có user đăng nhập
-    ?> 
-    <span class="me-2">
-        <a href="/MIKEPHP/user/account/profile" class="nav-link py-2 px-0 px-lg-2">
+      <?php if (isset($_SESSION['user_id'])) { ?>
+        <span class="me-2">
+          <a href="/MIKEPHP/user/account/profile" class="nav-link py-2 px-0 px-lg-2">
             <i class="fa fa-user-o" aria-hidden="true"></i>
-        </a>
-    </span>
-    <?php
-} else {
-    ?>
-    <span class="me-2">
-        <a href="/MIKEPHP/login" class="nav-link py-2 px-0 px-lg-2">
+          </a>
+        </span>
+      <?php } else {?>
+        <span class="me-2">
+          <a href="/MIKEPHP/login" class="nav-link py-2 px-0 px-lg-2">
             <i class="fa fa-user-o" aria-hidden="true"></i>
-        </a>
-    </span>
-    <?php
-}
-?>
-
-      
+          </a>
+        </span>
+      <?php }?>
       <span class=" me-2">
-        <a class="nav-link py-2 px-0 px-lg-2"  href="/MIKEPHP/cart">
+        <a class="nav-link py-2 px-0 px-lg-2" href="/MIKEPHP/cart">
           <i class="fa fa-cart-plus" aria-hidden="true"></i>
         </a>
       </span>
