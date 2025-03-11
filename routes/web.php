@@ -16,11 +16,30 @@ $nameProject = "MIKEPHP";
 $router->get('/' . $nameProject . '/', [HomeController::class, 'index']);
 
 
-$router->get('/' . $nameProject . '/admin', function(){
+$router->get('/' . $nameProject . '/admin/overview', function(){
     require_once __DIR__ . '/../dashboard/index.php';
+    require_once __DIR__ . '/../dashboard/views/dashboard.php';
 });
-
-
+$router->get('/' . $nameProject . '/admin/product', function(){
+    require_once __DIR__ . '/../dashboard/index.php';
+    require_once __DIR__ . '/../dashboard/views/product.php';
+});
+$router->get('/' . $nameProject . '/admin/order', function(){
+    require_once __DIR__ . '/../dashboard/index.php';
+    require_once __DIR__ . '/../dashboard/views/order.php';
+});
+$router->get('/' . $nameProject . '/admin/payment', function(){
+    require_once __DIR__ . '/../dashboard/index.php';
+    require_once __DIR__ . '/../dashboard/views/payment.php';
+});
+$router->get('/' . $nameProject . '/admin/customer', function(){
+    require_once __DIR__ . '/../dashboard/index.php';
+    require_once __DIR__ . '/../dashboard/views/customer.php';
+});
+$router->get('/' . $nameProject . '/admin/reports', function(){
+    require_once __DIR__ . '/../dashboard/index.php';
+    require_once __DIR__ . '/../dashboard/views/reports.php';
+});
 
 $router->get('/' . $nameProject . '/about', function () {
     echo "Giới thiệu";
@@ -211,38 +230,35 @@ try {
 try {
     $db = Database::getInstance()->getConnection();
 
-    // Lấy tất cả id, slug, và parent_id từ categories
+   
     $stmt = $db->query("SELECT id, slug, parent_id, name FROM categories");
     $collections = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($collections as $collection) {
         $slug = $collection['slug'];
         $category_id = $collection['id'];
-        $parent_id = $collection['parent_id']; // Danh mục cha
+        $parent_id = $collection['parent_id']; 
         $category_name = $collection['name']; 
-        // Lấy tất cả các danh mục con liên quan
+       
         $stmtChildCategories = $db->prepare("SELECT id FROM categories WHERE id = :category_id OR parent_id = :category_id");
         $stmtChildCategories->execute(['category_id' => $category_id]);
         $childCategories = $stmtChildCategories->fetchAll(PDO::FETCH_COLUMN);
 
-        // Nếu danh sách con rỗng, chỉ lấy chính nó
+        
         if (empty($childCategories)) {
             $childCategories = [$category_id];
         }
 
-        // Tạo câu truy vấn với tham số an toàn
+      
         $placeholders = implode(',', array_fill(0, count($childCategories), '?'));
         $stmtProducts = $db->prepare("SELECT * FROM products WHERE category_id IN ($placeholders)");
         $stmtProducts->execute($childCategories);
         $products = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
 
-        // Đăng ký route
+      
         $router->get("/$nameProject/collections/$slug", function () use ($slug, $category_name,  $products) {
             $controller = new CollectionsController();
             $controller->showCollection($slug,$category_name,$products);
-            
-            // In dữ liệu JSON để kiểm tra
-            
         });
     }
 } catch (PDOException $e) {

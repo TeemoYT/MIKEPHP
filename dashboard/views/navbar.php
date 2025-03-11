@@ -1,9 +1,6 @@
  <nav class="navbar navbar-expand-lg bg-body-tertiary " style="width: 100%;">
-  <div class="container-fluid">
-  <div>
-      <h2>Overview</h2>
-      <h6>Top Sales Representative</h6> 
-    </div>
+  <div class="container-fluid justify-content-end">
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

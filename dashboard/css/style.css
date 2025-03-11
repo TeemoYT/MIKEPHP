@@ -18,31 +18,38 @@
 
 /* Định dạng từng mục */
 .dash-board li {
-  padding: 15px 20px;
+  margin-top: 0;
+
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
 }
 
 .dash-board li a {
-  margin-left: 8px;
+  margin-left: -40px;
   text-decoration: none;
   color: #ecf0f1;
   font-size: 16px;
   display: flex;
   align-items: center;
-  transition: all 0.3s ease;
+  padding: 15px 15px;
+ 
 }
 .dash-board li img{
   margin-left: 45px;
 }
-.dash-board li a:hover {
+.dash-board li:hover {
   background: #34495e;
-  padding-left: 25px;
+  margin-left: 25px;
 }
 
 /* product */
 .dash-board li:first-child {
-  text-align: center;
-  padding: 20px 0;
+
+  padding: 0 20px;
+}
+.dash-board li:first-child:hover {
+  margin-left: 0;
+  padding: 0 20px;
 }
 
 .dash-board li:first-child img {
@@ -130,7 +137,7 @@ li {
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #fff;
-  animation: fadeIn 0.5s ease;
+  animation: fadeIn 0.69s ease;
 }
 
 /* Animation khi hiển thị */
