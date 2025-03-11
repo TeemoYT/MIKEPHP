@@ -11,3 +11,4 @@
     <div class="right" style="width: 100%;">
         <?php include(__DIR__ . '/views/navbar.php'); ?>
 
+
