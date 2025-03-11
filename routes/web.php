@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../core/Router.php';
 require_once __DIR__ . '/../controllers/Homecontrollers.php';
+require_once __DIR__ . '/../controllers/Collectionscontrollers.php';
 
 
 require_once __DIR__ . '/../controllers/ProductsControllers.php';
@@ -203,9 +204,52 @@ try {
             $controller->showProduct($slug);
         });
     }
+    
 } catch (PDOException $e) {
     die("Lỗi lấy sản phẩm: " . $e->getMessage());
 }
+try {
+    $db = Database::getInstance()->getConnection();
+
+    // Lấy tất cả id, slug, và parent_id từ categories
+    $stmt = $db->query("SELECT id, slug, parent_id, name FROM categories");
+    $collections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($collections as $collection) {
+        $slug = $collection['slug'];
+        $category_id = $collection['id'];
+        $parent_id = $collection['parent_id']; // Danh mục cha
+        $category_name = $collection['name']; 
+        // Lấy tất cả các danh mục con liên quan
+        $stmtChildCategories = $db->prepare("SELECT id FROM categories WHERE id = :category_id OR parent_id = :category_id");
+        $stmtChildCategories->execute(['category_id' => $category_id]);
+        $childCategories = $stmtChildCategories->fetchAll(PDO::FETCH_COLUMN);
+
+        // Nếu danh sách con rỗng, chỉ lấy chính nó
+        if (empty($childCategories)) {
+            $childCategories = [$category_id];
+        }
+
+        // Tạo câu truy vấn với tham số an toàn
+        $placeholders = implode(',', array_fill(0, count($childCategories), '?'));
+        $stmtProducts = $db->prepare("SELECT * FROM products WHERE category_id IN ($placeholders)");
+        $stmtProducts->execute($childCategories);
+        $products = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
+
+        // Đăng ký route
+        $router->get("/$nameProject/collections/$slug", function () use ($slug, $category_name,  $products) {
+            $controller = new CollectionsController();
+            $controller->showCollection($slug,$category_name,$products);
+            
+            // In dữ liệu JSON để kiểm tra
+            
+        });
+    }
+} catch (PDOException $e) {
+    die("Lỗi lấy dữ liệu: " . $e->getMessage());
+}
+
+
 
 
 return $router;

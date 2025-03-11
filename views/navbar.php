@@ -1,3 +1,63 @@
+<?php
+require_once __DIR__ . "/../module/module.php";
+
+$collectionModule = new CollectionsModules();
+$categories = $collectionModule->getCategory();
+$menuTree = [];
+
+foreach ($categories as $category) {
+  $menuTree[$category['id']] = [
+    'id' => $category['id'],
+    'name' => $category['name'],
+    'slug' => $category['slug'],
+    'parent_id' => $category['parent_id'],
+    'children' => []
+  ];
+}
+
+// Tạo danh sách danh mục cha
+$finalMenu = [];
+
+foreach ($menuTree as $id => &$category) {
+  if ($category['parent_id'] != 0 && isset($menuTree[$category['parent_id']])) {
+
+    $menuTree[$category['parent_id']]['children'][] = &$category;
+  } else {
+
+    $finalMenu[$id] = &$category;
+  }
+}
+unset($category);
+$menuTree = $finalMenu;
+
+
+function renderMenu($categories)
+{
+  if (empty($categories)) return;
+  echo '<ul class="dropdown-menu">';
+  foreach ($categories as $category) {
+    $hasChildren = !empty($category['children']);
+
+    echo '<li class="dropdown ' . ($hasChildren ? 'dropend' : '') . '">';
+    echo '<a class="dropdown-item ' . ($hasChildren ? 'dropdown-toggle' : '') . '" href="/MIKEPHP/collections/' . htmlspecialchars($category['slug']) . '" ' .  '>';
+    echo htmlspecialchars($category['name']);
+    echo '</a>';
+
+
+    if ($hasChildren) {
+
+      renderMenu($category['children']);
+    }
+
+    echo '</li>';
+  }
+  echo '</ul>';
+}
+
+
+
+?>
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary ">
   <div class="container-fluid">
     <a href="/MIKEPHP/"><img width="80" height="80" src="/MIKEPHP/img/Logo.png"></a>
@@ -6,67 +66,21 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse justify-content-center navbar-collapse" id="navbarNav">
-      <div class="dropdown">
-        <a data-mdb-button-init data-mdb-ripple-init data-mdb-dropdown-init class="btn dropdown-toggle"
-          id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">
-          Giá ưu đãi
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">79K</a></li>
-          <li><a class="dropdown-item" href="#">99K</a></li>
-          <li><a class="dropdown-item" href="#">210K</a></li>
-          <li><a class="dropdown-item" href="#">Giá Đặc Biệt</a></li>
-        </ul>
-      </div>
-      <div class="dropdown">
-        <a data-mdb-button-init data-mdb-ripple-init data-mdb-dropdown-init class="btn dropdown-toggle"
-          id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">
-          Giày Nam
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">Giày Âu</a></li>
-          <li><a class="dropdown-item" href="#">Sandel Nữ</a></li>
-          <li><a class="dropdown-item" href="#">Thể Thao</a></li>
-          <li><a class="dropdown-item" href="#">...</a></li>
-        </ul>
-      </div>
-      <div class="dropdown">
-        <a data-mdb-button-init data-mdb-ripple-init data-mdb-dropdown-init class="btn dropdown-toggle"
-          id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">
-          Giày Nữ
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li>
-            <div class="dropend">
-              <a data-bs-button-init data-bs-ripple-init data-bs-dropdown-init class="btn dropdown-toggle"
-                id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">
-                Cao gót
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Menu item</a></li>
-                <li><a class="dropdown-item" href="#">Menu item</a></li>
-                <li><a class="dropdown-item" href="#">Menu item</a></li>
-              </ul>
-            </div>
-          </li>
-          <li><a class="dropdown-item" href="#">Thể Thao</a></li>
-          <li><a class="dropdown-item" href="#">SanDal Nữ</a></li>
-          <li><a class="dropdown-item" href="#">...</a></li>
-        </ul>
-      </div>
-      <div class="dropdown">
-        <a data-mdb-button-init data-mdb-ripple-init data-mdb-dropdown-init class="btn dropdown-toggle"
-          id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">
-          Giá ưu đãi
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">79K</a></li>
-          <li><a class="dropdown-item" href="#">99K</a></li>
-          <li><a class="dropdown-item" href="#">210K</a></li>
-          <li><a class="dropdown-item" href="#">Giá Đặc Biệt</a></li>
-        </ul>
-      </div>
+
+      <?php if (!empty($menuTree)): ?>
+        <?php $firstCategory = reset($menuTree); ?>
+        <?php foreach ($menuTree as $parent): ?>
+          <div class="dropdown">
+            <a  class="main-link <?php echo !empty($parent['children']) ? 'dropdown-toggle' : '' ?>"
+               href="/MIKEPHP/collections/<?php echo $parent['slug'] ?>">
+              <?php echo htmlspecialchars($parent['name']); ?>
+            </a>
+            <?php renderMenu($parent['children']); ?>
+          </div>
+        <?php endforeach; ?>
+      <?php endif; ?>
     </div>
+
     <form class="d-flex" role="search">
       <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
       <?php if (isset($_SESSION['user_id'])) { ?>
@@ -75,14 +89,14 @@
             <i class="fa fa-user-o" aria-hidden="true"></i>
           </a>
         </span>
-      <?php } else {?>
+      <?php } else { ?>
         <span class="me-2">
           <a href="/MIKEPHP/login" class="nav-link py-2 px-0 px-lg-2">
             <i class="fa fa-user-o" aria-hidden="true"></i>
           </a>
         </span>
-      <?php }?>
-      <span class=" me-2">
+      <?php } ?>
+      <span class="me-2">
         <a class="nav-link py-2 px-0 px-lg-2" href="/MIKEPHP/cart">
           <i class="fa fa-cart-plus" aria-hidden="true"></i>
         </a>
