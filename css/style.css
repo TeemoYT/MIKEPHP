@@ -477,12 +477,13 @@ button:hover {
 .shop-info {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     font-size: 14px;
+    gap: 8px; /* Khoảng cách giữa các phần tử */
 }
 
 .shop-name {
     font-weight: bold;
+    vertical-align: middle; /* Căn giữa theo chiều dọc */
 }
 
 .chat-btn, .view-shop-btn {
@@ -500,6 +501,8 @@ button:hover {
     background: #fff;
     padding: 10px;
     border-radius: 5px;
+    height: 124px;
+
 }
 
 .order-details img {
@@ -515,6 +518,7 @@ button:hover {
 .product-name {
     font-weight: bold;
     color: #333;
+    max-width: 250px;
 }
 
 .old-price {
@@ -529,16 +533,17 @@ button:hover {
 
 /* Trạng thái đơn hàng */
 .order-status {
+    margin-left: 250px;
     display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background: #fff;
-}
+    align-items: center;
+    gap: 5px; /* Khoảng cách giữa icon và chữ */
+  }
 
-.review {
-    color: #e53935;
+  .review {
+    color: red;
     font-weight: bold;
-}
+    margin-left: 5px;
+  }
 
 /* Nút hành động */
 .order-actions {
@@ -564,6 +569,48 @@ button:hover {
     border: none;
     cursor: pointer;
 }
+.order-status span{
+    margin-right: 8px;
+}
+.order-status a{
+    text-decoration: none;
+}
+.shop-info .chat-btn{
+    width: 72px;
+}
+.shop-info .view-shop-btn{
+    width: 120px;
+}
+.shop-name ,
+.product-name{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+    display: inline-block;
+    
+}
+.chat-btn,
+.view-shop-btn{
+    background-color: #ff5a2c;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.order-item{
+    margin-bottom: 16px;
+}
+.view-shop-btn{
+    width: 80px;
+}
+.order-content {
+    height: auto; /* Chiều cao tự động theo nội dung */
+    min-height: 600px; /* Điều chỉnh tối thiểu để tránh khoảng trống */
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung quá dài */
+  }
+  
 
 
 

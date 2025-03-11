@@ -28,6 +28,8 @@
     <div class="right" style="width: 100%;">
         <?php include(__DIR__ . '/views/navbar.php'); ?>
         <?php include(__DIR__ . '/views/dashboard.php'); ?>
+        <?php include(__DIR__ . '/views/product.php'); ?>
+
 
 <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 
