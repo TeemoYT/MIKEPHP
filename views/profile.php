@@ -44,14 +44,6 @@
                 <div class="stardust-dropdown">
                     <div class="stardust-dropdown-item">
                         <a class="profile-sidebar--menu-item" href="#">
-                            <i class="fa fa-ticket" aria-hidden="true"></i>
-                            <span>Kho voucher</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="stardust-dropdown">
-                    <div class="stardust-dropdown-item">
-                        <a class="profile-sidebar--menu-item" href="#">
                             <i class="fa fa-star-o" aria-hidden="true"></i>
                             <span>Sản phẩm yếu thích</span>
                         </a>
@@ -59,10 +51,17 @@
                 </div>
                 <div class="stardust-dropdown">
                     <div class="stardust-dropdown-item">
-                        <a class="profile-sidebar--menu-item" href="#">
+                        <a class="profile-sidebar--menu-item" href="#" id="logout-button">
                             <i class="fa fa-power-off" aria-hidden="true"></i>
                             <span>Đăng xuất</span>
                         </a>
+                    </div>
+                </div>
+                <div id="logout-confirm" class="logout-modal">
+                    <div class="logout-modal-content">
+                        <p>Bạn có chắc chắn muốn đăng xuất không?</p>
+                        <button id="confirm-logout">Đồng ý</button>
+                        <button id="cancel-logout">Hủy</button>
                     </div>
                 </div>
             </div>
@@ -71,7 +70,7 @@
 
 
     <div class="profile-main">
-        <?php require_once __DIR__.'/profile/orderpage.php' ?>
+        <?php require_once __DIR__ . '/profile/logout.php' ?>
 
     </div>
 </div>
@@ -88,5 +87,15 @@
             passwordInput.type = "password";
             eyeIcon.textContent = "👁️"; // Icon mắt đóng
         }
+    });
+    document.getElementById("logout-button").addEventListener("click" , function(event){
+        event.preventDefault();
+        document.getElementById("logout-comfirm").style.display="flex";
+    });
+    document.getElementById("comfirm-logout").addEventListener("click", function(){
+        window.location.href = "/logout.php";
+    });
+    document.getElementById("cancel-logout").addEventListener("click" , function(){
+        document.getElementById("logout-comfirm").style.display = "none";
     });
 </script>
