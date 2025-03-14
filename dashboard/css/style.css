@@ -2,6 +2,20 @@
   margin-left: 240px;
 }
 
+.container{
+  margin-top: -30px;
+  display: flex;
+  justify-content: space-between;
+  gap: 100px;
+}
+.container .column{
+  margin-left: 100px;
+  padding: 10px 90px;
+}
+.container .column-1{
+  margin-left: 100px;
+  padding: 10px 70px;
+}
 /* Định dạng chung */
 .dash-board {
   list-style: none;
@@ -73,18 +87,13 @@
   vertical-align: middle;
 }
 
-li {
+.dashboard-menu {
   list-style: none;
   text-align: left;
   margin-top: 24px;
   padding: 8px 38px;
 }
 
-.container {
-  display: flex;
-  justify-content: space-between;
-  gap: 100px;
-}
 .column {
   flex: 1;
   margin-top: 100px;
@@ -213,46 +222,6 @@ li {
   font-size: 16px;
 }
 
-/* Định dạng kích thước cột */
-th:nth-child(1),
-td:nth-child(1) {
-  width: 5%;
-}
-
-th:nth-child(2),
-td:nth-child(2) {
-  width: 20%;
-}
-
-th:nth-child(3),
-td:nth-child(3) {
-  width: 15%;
-}
-
-th:nth-child(4),
-td:nth-child(4) {
-  width: 20%;
-}
-
-th:nth-child(5),
-td:nth-child(5) {
-  width: 10%;
-}
-
-th:nth-child(6),
-td:nth-child(6) {
-  width: 15%;
-}
-
-th:nth-child(7),
-td:nth-child(7) {
-  width: 10%;
-}
-
-th:nth-child(8),
-td:nth-child(8) {
-  width: 5%;
-}
 
 /* Chỉ áp dụng cho phần chi tiết khách hàng */
 .detailOrder,

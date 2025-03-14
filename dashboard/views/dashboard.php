@@ -69,12 +69,12 @@
             <p>Tổng doanh thu tháng này</p>
             <p class="amount">$200000</p>
         </div>
-        <div class="column">
+        <div class="column column-1">
             <p>Tổng doanh thu cả năm</p>
             <p class="amount">$10000000</p>
         </div>
     </div>
-<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+<canvas id="myChart" style="margin-top: 40px; margin-left: 706px; width: 100%; max-width: 736px;"></canvas>
 
 
 
