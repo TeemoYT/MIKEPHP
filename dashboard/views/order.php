@@ -1,3 +1,14 @@
+<?php
+require_once __DIR__ . "/../../module/orderModule.php";
+$orderModule = new OrderModule();
+$orderList = $orderModule->getOrderListItem();
+
+$order_id = $_GET['order_id'] ?? 0;
+$orderDetails = $orderModule->getOrderDetails($order_id);
+
+
+?>
+
 <div style="overflow-y: auto; max-height: 830px; padding: 20px;">
   <div class="d-flex head-order" style="justify-content: space-between; align-items: center; margin-bottom: 20px;">
     <h3 style="margin: 0; font-weight: bold; margin-left: 240px;">📦 Danh sách đơn hàng</h3>
@@ -31,175 +42,85 @@
         </tr>
       </thead>
       <tbody class="table-body">
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td>1</td>
-          <td>Nguyễn Văn A</td>
-          <td>0939618903</td>
-          <td>3 sản phẩm</td>
-          <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
-          <td>14/08/2025</td>
-          <td>MOMO</td>
-          <td><span style="color: orange;">Đang xử lý</span></td>
-          <td>
-            <button class="btn btn-primary" onclick="showOrderDetail('ORD001', 'AF1', '43', 'TRẮNG', '2', '350.000VND','700.000VND')"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-eye" aria-hidden="true"></i> Xem
-            </button>
-            <button class="btn btn-danger"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
-            </button>
-          </td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td>1</td>
-          <td>Nguyễn Văn A</td>
-          <td>0939618903</td>
-          <td>3 sản phẩm</td>
-          <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
-          <td>14/08/2025</td>
-          <td>MOMO</td>
-          <td><span style="color: orange;">Đang xử lý</span></td>
-          <td>
-            <button class="btn btn-primary" onclick="showOrderDetail('ORD001', 'AF1', '43', 'TRẮNG', '2', '350.000VND','700.000VND')"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-eye" aria-hidden="true"></i> Xem
-            </button>
-            <button class="btn btn-danger"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
-            </button>
-          </td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td>1</td>
-          <td>Nguyễn Văn A</td>
-          <td>0939618903</td>
-          <td>3 sản phẩm</td>
-          <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
-          <td>14/08/2025</td>
-          <td>MOMO</td>
-          <td><span style="color: orange;">Đang xử lý</span></td>
-          <td>
-            <button class="btn btn-primary" onclick="showOrderDetail('ORD001', 'AF1', '43', 'TRẮNG', '2', '350.000VND','700.000VND')"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-eye" aria-hidden="true"></i> Xem
-            </button>
-            <button class="btn btn-danger"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
-            </button>
-          </td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td>1</td>
-          <td>Nguyễn Văn A</td>
-          <td>0939618903</td>
-          <td>3 sản phẩm</td>
-          <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
-          <td>14/08/2025</td>
-          <td>MOMO</td>
-          <td><span style="color: orange;">Đang xử lý</span></td>
-          <td>
-            <button class="btn btn-primary" onclick="showOrderDetail('ORD001', 'AF1', '43', 'TRẮNG', '2', '350.000VND','700.000VND')"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-eye" aria-hidden="true"></i> Xem
-            </button>
-            <button class="btn btn-danger"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
-            </button>
-          </td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td>1</td>
-          <td>Nguyễn Văn A</td>
-          <td>0939618903</td>
-          <td>3 sản phẩm</td>
-          <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
-          <td>14/08/2025</td>
-          <td>MOMO</td>
-          <td><span style="color: orange;">Đang xử lý</span></td>
-          <td>
-            <button class="btn btn-primary" onclick="showOrderDetail('ORD001', 'AF1', '43', 'TRẮNG', '2', '350.000VND','700.000VND')"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-eye" aria-hidden="true"></i> Xem
-            </button>
-            <button class="btn btn-danger"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
-            </button>
-          </td>
-        </tr>    
+        <?php
 
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td>2</td>
-          <td>Nguyễn Văn B</td>
-          <td>0866443269</td>
-          <td>3 sản phẩm</td>
-          <td>10 Nguyễn Thái Sơn, Gò Vấp, TP.HCM</td>
-          <td>14/08/2025</td>
-          <td>MOMO</td>
-          <td><span style="color: orange;">Đang xử lý</span></td>
-          <td>
-            <button class="btn btn-primary btn-order" onclick="showOrderDetail('ORD001', 'AF1', '43', 'TRẮNG', '2', '350.000VND','700.000VND')"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-eye" aria-hidden="true"></i> Xem
-            </button>
-            <button class="btn btn-danger"
-              style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
-              <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
-            </button>
-          </td>
-        </tr>
+        foreach ($orderList as $order) {
+
+        ?>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td><?php echo $order['id'] ?></td>
+            <td><?php echo $order['name'] ?></td>
+            <td><?php echo $order['phone'] ?></td>
+            <td><?php echo $order['sumProduct'] ?></td>
+            <td><?php echo $order['address'] ?></td>
+            <td><?php echo $order['created_at'] ?></td>
+            <td><?php echo $order['payment_method'] ?></td>
+            <td><span style="color: orange;"><?php echo $order['status'] ?></span></td>
+            <td>
+              <button class="btn btn-primary"
+                onclick="window.location.href='?order_id=<?php echo $order['id']; ?>'"
+                style="padding: 5px 12px; border-radius: 8px; background-color: #007bff; color: white; border: none; transition: background-color 0.3s;">
+                <i class="fa fa-eye" aria-hidden="true"></i> Xem
+              </button>
+              <button class="btn btn-danger"
+                style="padding: 5px 12px; border-radius: 8px; background-color: #dc3545; color: white; border: none; transition: background-color 0.3s;">
+                <i class="fa fa-times-circle" aria-hidden="true"></i> Hủy
+              </button>
+            </td>
+          </tr>
+        <?php } ?>
+
+
 
       </tbody>
     </table>
   </div>
   <div id="pagination" style="display: flex; justify-content: center; margin-top: 10px;"></div>
 
-  <div id="detailOrder" class="detailOrder">
-    <table>
+  <div id="orderPopup" class="popup-overlay" >
+    <div class="popup-content">
+    <button class="close-btn" onclick="window.location.href='order'">X</button>
       <h2>Chi tiết đơn hàng</h2>
-      <p><strong>Mã sản phẩm:</strong> <span id="detailMSP"></span></p>
-      <p><strong>Tên sản phẩm:</strong> <span id="detaiLTSP"></span></p>
-      <p><strong>Size:</strong> <span id="detailSIZE"></span></p>
-      <p><strong>Màu:</strong> <span id="detailCOLOR"></span></p>
-      <p><strong>Số lượng:</strong> <span id="detailSL"></span></p>
-      <p><strong>Giá bán:</strong> <span id="detailGB"></span></p>
-      <p><strong>Tổng tiền:</strong> <span id="detailTT"></span></p>
-    </table>
+
+      <?php
+
+      if (!empty($orderDetails)) {
+        echo "<h5><small>Mã đơn hàng: #{$orderDetails[0]['order_id']}</small></h5>";
+        echo "<p>Sản phẩm: </p>";
+        foreach ($orderDetails as $item) {
+          $imagePath = "/MIKEPHP/img/" . $item["image_url"];
+          if (empty($item["image_url"]) || !file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
+            $imagePath = "/MIKEPHP/img/default.png";
+          }
+
+          echo "
+                <div class='card mb-3' style='max-width: 540px; text-align: left; margin: auto;'>
+                    <div class='row g-0'>
+                        <div class='col-md-3 mt-2 mb-2 ms-1'>
+                            <img style='min-height:135px' src='{$imagePath}' class='img-fluid rounded-start'>
+                        </div>
+                        <div class='col-md-8'>
+                            <div class='card-body'>
+                                <h5 class='card-title'>{$item['product_name']}</h5>
+                                <p><strong>Size:</strong> {$item['size']}</p>
+                                <p><strong>Số lượng:</strong> {$item['quantity']}</p>
+                                <p><strong>Giá bán:</strong> {$item['price']}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>";
+        }
+        echo "<h5><small>Tổng giá: $ {$orderDetails[0]['sumprice']}</small></h5>";
+      }
+      ?>
+    </div>
   </div>
 
   <script>
-    function showOrderDetail(msp, tsp, size, color, sl, gb, tt) {
-      // Load CSS riêng cho trang chi tiết khách hàng
-      let detailCSS = document.getElementById("detailCSS");
-      if (!detailCSS) {
-        detailCSS = document.createElement("link");
-        detailCSS.id = "detailCSS";
-        detailCSS.rel = "stylesheet";
-        detailCSS.href = "order_detail.css";
-        document.head.appendChild(detailCSS);
-      }
-
-      // Cập nhật thông tin khách hàng
-      document.getElementById("detailMSP").innerText = msp;
-      document.getElementById("detaiLTSP").innerText = tsp;
-      document.getElementById("detailSIZE").innerText = size;
-      document.getElementById("detailCOLOR").innerText = color;
-      document.getElementById("detailSL").innerText = sl;
-      document.getElementById("detailGB").innerText = gb;
-      document.getElementById("detailTT").innerText = tt;
-
-      // Ẩn danh sách, hiển thị chi tiết
-      document.getElementById("detailOrder").classList.add("hidden");
-      document.getElementById("customerList").classList.remove("hidden");
-    }
-
-    function backToList() {
-      // Hiển thị danh sách, ẩn chi tiết
-      document.getElementById("detailOrder").classList.remove("hidden");
-      document.getElementById("customerList").classList.add("hidden");
-    }
+    window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('order_id')) {
+            document.getElementById("orderPopup").style.display = "flex";
+        }
+    };
   </script>

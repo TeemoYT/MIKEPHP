@@ -34,16 +34,31 @@ CREATE TABLE IF NOT EXISTS categories (
     FOREIGN KEY (parent_id) REFERENCES categories(id) ON DELETE CASCADE
 );
 
-
+CREATE TABLE IF NOT EXISTS trademarks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE
+);
+INSERT INTO trademarks (id,name) VALUES (1,'Mike'), (2,'Adisas')
+ON DUPLICATE KEY UPDATE
+id = VALUES(id),
+name = VALUES(name);
 CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
     image_url VARCHAR(255),
-    category_id INT,
+    trademark_id INT,  
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+    FOREIGN KEY (trademark_id) REFERENCES trademarks(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS product_categories (
+    product_id INT,
+    category_id INT,
+    PRIMARY KEY (product_id, category_id),
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS order_status (
@@ -158,24 +173,25 @@ ALTER TABLE products ADD COLUMN IF NOT EXISTS image_json TEXT;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS size_json TEXT;
 
 -- Cập nhật dữ liệu bảng products
-INSERT INTO products (id, name, description, price, category_id, image_url, slug, image_json, size_json) VALUES 
-(1, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00, 1, 'jordan1.webp', 'nike-air-force-1', 
+INSERT INTO products (id, name, description, price, image_url, slug, image_json, size_json,trademark_id) VALUES 
+(1, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00,  'jordan1.webp', 'nike-air-force-1', 
    '["jordan1.webp","jordan2.webp","jordan3.webp","jordan4.webp"]',
-   '[["42", true], ["43", true], ["41", false]]'
+   '[["42", true,"20"], ["43", true,"50"], ["41", false,"60"]]',1
 ),
-(2, 'Adidas Ultraboost', 'Giày chạy bộ thoải mái', 150.00, 1, 'adidas_ultraboost.jpg', 'adidas-ultraboost',
+(2, 'Adidas Ultraboost', 'Giày chạy bộ thoải mái', 150.00,  'adidas_ultraboost.jpg', 'adidas-ultraboost',
    '["jordan5.webp","jordan6.webp","jordan7.webp","af1.webp"]',
-   '[["42", false], ["43", true], ["41", false]]'
+   '[["42", false,"70"], ["43", true,"20"], ["41", false,"60"]]',2
 )
 ON DUPLICATE KEY UPDATE 
 name = VALUES(name), 
 description = VALUES(description), 
 price = VALUES(price), 
-category_id = VALUES(category_id), 
 image_url = VALUES(image_url),
 slug = VALUES(slug),
 image_json = VALUES(image_json),
-size_json = VALUES(size_json);
+size_json = VALUES(size_json),
+trademark_id = VALUES(trademark_id);
+INSERT INTO product_categories (product_id, category_id) VALUES (1, 2), (1, 3);
 
 -- Cập nhật thông tin người dùng
 INSERT INTO users (id, name, email, password, phone, role) VALUES 

@@ -227,43 +227,7 @@ try {
 } catch (PDOException $e) {
     die("Lỗi lấy sản phẩm: " . $e->getMessage());
 }
-try {
-    $db = Database::getInstance()->getConnection();
 
-   
-    $stmt = $db->query("SELECT id, slug, parent_id, name FROM categories");
-    $collections = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($collections as $collection) {
-        $slug = $collection['slug'];
-        $category_id = $collection['id'];
-        $parent_id = $collection['parent_id']; 
-        $category_name = $collection['name']; 
-       
-        $stmtChildCategories = $db->prepare("SELECT id FROM categories WHERE id = :category_id OR parent_id = :category_id");
-        $stmtChildCategories->execute(['category_id' => $category_id]);
-        $childCategories = $stmtChildCategories->fetchAll(PDO::FETCH_COLUMN);
-
-        
-        if (empty($childCategories)) {
-            $childCategories = [$category_id];
-        }
-
-      
-        $placeholders = implode(',', array_fill(0, count($childCategories), '?'));
-        $stmtProducts = $db->prepare("SELECT * FROM products WHERE category_id IN ($placeholders)");
-        $stmtProducts->execute($childCategories);
-        $products = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
-
-      
-        $router->get("/$nameProject/collections/$slug", function () use ($slug, $category_name,  $products) {
-            $controller = new CollectionsController();
-            $controller->showCollection($slug,$category_name,$products);
-        });
-    }
-} catch (PDOException $e) {
-    die("Lỗi lấy dữ liệu: " . $e->getMessage());
-}
 
 
 
