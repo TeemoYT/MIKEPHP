@@ -1,3 +1,13 @@
+<?php 
+ require_once __DIR__."/../../module/productModule.php";
+
+  $product= new ProductsModule();
+  $productItem =  $product->getAll();
+
+ 
+
+?>
+
 
 <div style="overflow-y: auto; height: 750px;">
 <table class="table">
@@ -14,91 +24,32 @@
     </tr>
   </thead>
   <tbody >
-    <tr>
-      <th scope="row"><a class="media-left" href="#"><img class="img-circle img-sm rounded-circle " alt="Profile Picture"
-            src="https://bootdey.com/img/Content/avatar/avatar1.png" width="50" height="50"></a></th>
-        <td>Sneaker</td>
-      <td>giày AF1</td>
-      <td>Mike</td>
-      <td class="describe">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat eius iure tenetur, repellat error a possimus optio illum odio laboriosam laborum animi suscipit accusantium! Maxime animi dolor amet delectus? Temporibus?</td>
-      <td>5</td>
+    <?php 
+      foreach($productItem as $item){
+        $imagePath = "/MIKEPHP/img/" . $item["image_url"];
+          if (empty($item["image_url"]) || !file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
+            $imagePath = "/MIKEPHP/img/default.png";
+          }
+        echo "
+        <tr>
+      <th scope='row'><a class='media-left' href='#'><img class='img-circle img-sm rounded-circle ' alt='Profile Picture'
+            src='{$imagePath}' width='50' height='50'></a></th>
+        <td>Danh muc</td>
+      <td>{$item['name']}</td>
+      <td>{$item['trademark_id']}</td>
+      <td class='describe'>{$item['description']}</td>
+      <td>{$item['price']}</td>
       <td>50</td>
       <td>
-        <button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
-        <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</button>
+        <button class='btn btn-primary'><i class='fa fa-pencil' aria-hidden='true'></i> Sửa</button>
+        <button class='btn btn-danger'><i class='fa fa-trash' aria-hidden='true'></i> Xóa</button>
       </td>
-    </tr>
+    </tr>";
 
-    <tr>
-      <th scope="row"><a class="media-left" href="#"><img class="img-circle img-sm rounded-circle " alt="Profile Picture"
-            src="https://bootdey.com/img/Content/avatar/avatar1.png" width="50" height="50"></a></th>
-        <td>Sneaker</td>
-      <td>giày AF1</td>
-      <td>Mike</td>
-      <td class="describe">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat eius iure tenetur, repellat error a possimus optio illum odio laboriosam laborum animi suscipit accusantium! Maxime animi dolor amet delectus? Temporibus?</td>
-      <td>5</td>
-      <td>50</td>
-      <td>
-        <button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
-        <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</button>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row"><a class="media-left" href="#"><img class="img-circle img-sm rounded-circle " alt="Profile Picture"
-            src="https://bootdey.com/img/Content/avatar/avatar1.png" width="50" height="50"></a></th>
-        <td>Sneaker</td>
-      <td>giày AF1</td>
-      <td>Mike</td>
-      <td class="describe">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat eius iure tenetur, repellat error a possimus optio illum odio laboriosam laborum animi suscipit accusantium! Maxime animi dolor amet delectus? Temporibus?</td>
-      <td>5</td>
-      <td>50</td>
-      <td>
-        <button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
-        <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</button>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row"><a class="media-left" href="#"><img class="img-circle img-sm rounded-circle " alt="Profile Picture"
-            src="https://bootdey.com/img/Content/avatar/avatar1.png" width="50" height="50"></a></th>
-        <td>Sneaker</td>
-      <td>giày AF1</td>
-      <td>Mike</td>
-      <td class="describe">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat eius iure tenetur, repellat error a possimus optio illum odio laboriosam laborum animi suscipit accusantium! Maxime animi dolor amet delectus? Temporibus?</td>
-      <td>5</td>
-      <td>50</td>
-      <td>
-        <button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
-        <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</button>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row"><a class="media-left" href="#"><img class="img-circle img-sm rounded-circle " alt="Profile Picture"
-            src="https://bootdey.com/img/Content/avatar/avatar1.png" width="50" height="50"></a></th>
-        <td>Sneaker</td>
-      <td>giày AF1</td>
-      <td>Mike</td>
-      <td class="describe">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat eius iure tenetur, repellat error a possimus optio illum odio laboriosam laborum animi suscipit accusantium! Maxime animi dolor amet delectus? Temporibus?</td>
-      <td>5</td>
-      <td>50</td>
-      <td>
-        <button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
-        <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</button>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row"><a class="media-left" href="#"><img class="img-circle img-sm rounded-circle " alt="Profile Picture"
-            src="https://bootdey.com/img/Content/avatar/avatar1.png" width="50" height="50"></a></th>
-        <td>Sneaker</td>
-      <td>giày AF1</td>
-      <td>Mike</td>
-      <td class="describe">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat eius iure tenetur, repellat error a possimus optio illum odio laboriosam laborum animi suscipit accusantium! Maxime animi dolor amet delectus? Temporibus?</td>
-      <td>5</td>
-      <td>50</td>
-      <td>
-        <button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
-        <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Xóa</button>
-      </td>
-    </tr>
+      }
+    
+    ?>
+    
 
   </tbody>
 </table>
