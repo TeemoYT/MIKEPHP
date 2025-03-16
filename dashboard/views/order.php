@@ -77,7 +77,7 @@ $orderDetails = $orderModule->getOrderDetails($order_id);
   </div>
   <div id="pagination" style="display: flex; justify-content: center; margin-top: 10px;"></div>
 
-  <div id="orderPopup" class="popup-overlay" >
+  <div id="orderPopup" class="popup-overlay" style="z-index: 99999;" >
     <div class="popup-content">
     <button class="close-btn" onclick="window.location.href='order'">X</button>
       <h2>Chi tiết đơn hàng</h2>
@@ -96,10 +96,10 @@ $orderDetails = $orderModule->getOrderDetails($order_id);
           echo "
                 <div class='card mb-3' style='max-width: 540px; text-align: left; margin: auto;'>
                     <div class='row g-0'>
-                        <div class='col-md-3 mt-2 mb-2 ms-1'>
-                            <img style='min-height:135px' src='{$imagePath}' class='img-fluid rounded-start'>
+                        <div class='col-md-3 mt-2 mb-2 ms-1' style='max-width:150px;'>
+                            <img style='min-height:135px;max-height:150px;' src='{$imagePath}' class='img-fluid rounded-start'>
                         </div>
-                        <div class='col-md-8'>
+                        <div class='col-md-8' style='max-width:150px;'>
                             <div class='card-body'>
                                 <h5 class='card-title'>{$item['product_name']}</h5>
                                 <p><strong>Size:</strong> {$item['size']}</p>
