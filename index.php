@@ -17,7 +17,7 @@ session_start();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
-<body>
+<body style="background-color: #f5f5f5;">
 <?php require_once __DIR__ . '/routes/web.php'; $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);?>
 
 

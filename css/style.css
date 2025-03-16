@@ -42,45 +42,19 @@ display: block;
     padding-right: 5px;
 }
 .col-2> .row{
-    height: 100px;
+    height: 65px;
     margin-bottom: 38px;
 }
 
 .body{
     margin-top:20px;
-    background:#ebeef0;
+    background-color: #f5f5f5;
+    visibility: visible;
 }
 
 .img-sm {
     width: 46px;
     height: 46px;
-}
-
-.panel {
-    box-shadow: 0 2px 0 rgba(0,0,0,0.075);
-    border-radius: 0;
-    border: 0;
-    margin-bottom: 15px;
-}
-
-.panel .panel-footer, .panel>:last-child {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.panel .panel-heading, .panel>:first-child {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-.panel-body{
-    position: relative;
-}
-
-.panel-body-comment {
-    display: flex;
-    position: absolute;
-    bottom: 30%;
-    width: 34%;
 }
 
 
@@ -166,6 +140,7 @@ img {
 }
 .col-10 img{
     padding: 0;
+    height: 412px;
 }
 .panel-body .mar-btm{
     padding-left: 12px;
@@ -196,6 +171,18 @@ img {
 }
 .flex-column {
     flex-direction: column;
+    margin-left: 40px;
+    margin-top: 40px;
+}
+.flex-column h6{
+    margin-bottom: 32px;
+}
+.infor h3{
+    height: 40px;
+    width: 586px;
+    background-color: #fafafa;
+    color: red;
+    padding-top: 4px;
 }
 .flex h6{
     width: 150px;
@@ -220,7 +207,7 @@ img {
 }
 .high-button-section{
     margin-top: 24px;
-
+    margin-left: 40px;
 }
 .high-button-section .btn-1{
     background-color: #f0eeee;
@@ -750,4 +737,107 @@ button:hover {
 #cancel-logout {
     background: gray;
     color: white;
+}
+
+/* responsive */
+
+/* mobile: width < 740px */
+@media only screen and (max-width: 739px){
+    .col-10{
+        width: 1100px !important;
+    }
+    .col-2{
+    flex: 0 0 auto;
+    width: 546px !important;
+    display: flex;
+    justify-content: space-between
+    }
+    /* .col-6-1{
+        display: none;
+    } */
+    .container-fluid{
+        margin-left: 30px !important;
+    }
+    .navbar-toggler{
+        margin-left: 530px;
+    }
+}
+
+/* tablet: width >=740 and width < 1024px */
+@media only screen and (min-width: 740px) and (max-width: 1023px){
+    
+}
+/* pc : width >- 1024px */
+@media only screen and (min-width: 1024px){
+    
+}
+.evaluate{
+    margin-left: 310px;
+    margin-top: 30px;
+}
+.evaluate .rating,
+.evaluate h5{
+    margin-left: -300px;
+}
+.evaluate .rating{
+    margin-left: -10px;
+}
+
+.panel {
+    box-shadow: 0 2px 0 rgba(0,0,0,0.075);
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 15px;
+    margin-left: -150px;
+}
+
+.panel .panel-footer, .panel>:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.panel .panel-heading, .panel>:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.panel-body{
+    position: relative;
+}
+
+.panel-body-comment {
+    display: flex;
+    position: absolute;
+    margin-top: 150px;
+    width: 34%;
+}
+.information-conatiner{
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    background-color: white;
+}
+
+.ms-1 i {
+    color: #ff4d4f;
+}
+.Product-Description {
+    font-family: Arial, sans-serif; /* Kiểu chữ giống mẫu */
+    font-size: 14px; /* Kích thước chữ vừa phải */
+    font-weight: 400; /* Độ đậm vừa */
+    color: #333; /* Màu chữ xám đậm */
+    line-height: 1.6; /* Giãn dòng thoải mái */
+    margin-top: 20px;
+    margin-left: 5px;
+}
+.Product-Description h4,
+.Product-Description h5 {
+    font-size: 16px; /* Tiêu đề lớn hơn một chút */
+    font-weight: bold; /* Chữ đậm */
+    text-transform: uppercase; /* Viết hoa tiêu đề */
+}
+.Product-Description h5{
+    margin-left: 8px;
+}
+.Product-Description li {
+    margin-bottom: 8px; /* Tạo khoảng cách giữa các dòng danh sách */
 }
