@@ -23,7 +23,7 @@ $cart;
           <div class="col-10">
             <?php
 
-          if ($productImage) {
+          if ($productImage) 
             $imageJson = json_decode($productImage['image_json'], true) ?? [];
             $imageUrl = "/MIKEPHP/img/" . $productImage['image_url'];
             // $sizeJson = json_decode($productSizeJson['size_json'], true) ?? [];
@@ -93,7 +93,7 @@ $cart;
               <section class="flex items-center" style="margin-bottom: 24px; align-items: baseline;">
                 <h6>Size</h6>
                 <div class="flex items-center">
-                  <?php
+                  <!-- <?php
                   $disable = 'disabled';
                   foreach ($sizeJson as $size) {
                     $sizeNumber = $size[0];
@@ -106,7 +106,7 @@ $cart;
                       onclick="selectSize(this)">
                       <?php echo $sizeNumber ?>
                     </button>
-                  <?php } ?>
+                  <?php } ?> -->
 
 
                 </div>
