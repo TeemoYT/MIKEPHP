@@ -453,3 +453,65 @@ canvas {
 .close-btn:hover {
   background: darkred;
 }
+
+.category-container{
+  display: flex;
+  max-width: 500px;
+  align-items: center;
+  flex-wrap: wrap;
+  
+}
+.category{
+  background-color: #5e5e5ee7;
+  margin: 10px 0;
+  border-radius: 15px;
+  padding: 0 5px;
+  display: inline-block;
+  color: #f2f2f3;
+}
+.category:hover {
+cursor:default;
+}
+
+
+
+
+
+.btnCategory{
+  max-width: 24px;
+  max-height: 24px;
+  font-size: medium;
+  border-radius: 5px;
+  background-color: #535353;
+  padding: 0 5px;
+  color: white;
+}
+.btnCategory:hover{
+  background-color: #6d6d6d;
+ cursor: pointer;
+}
+
+.btnCategory.remove{
+  border-radius: 50px;
+  background-color: #c5c5c5;
+  color: #5e5e5ee7;
+  font-weight:bold;
+}
+.hidden {
+  display: none;
+}
+
+.category-dropdown{
+  background-color: #313338;
+}
+.category-item,.category-searcch{
+  max-width: 87%;
+  margin: 5px 15px;
+  padding: 10px 10px;
+  font-size: 17px;
+  color: white;
+}
+.category-item:hover{
+  background-color: #535353;
+  cursor: pointer;
+}

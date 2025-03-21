@@ -4,7 +4,7 @@ $productsModule = new ProductsModule();
 $path = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 $slug = end($path);
 $productImage = $productsModule->getProductByImage($slug);
-$productSizeJson = $productsModule->getProductBySize($slug);
+
 $productItem = $productsModule->getProductByItem($slug);
 $sizeJson;
 $imageJson;
@@ -23,17 +23,13 @@ $cart;
           <div class="col-10 col-img-thumbnail">
             <?php
 
-            if ($productImage) {
+            if ($productImage)
               $imageJson = json_decode($productImage['image_json'], true) ?? [];
-              $imageUrl = "/MIKEPHP/img/" . $productImage['image_url'];
-              $sizeJson = json_decode($productSizeJson['size_json'], true) ?? [];
-              $imageFullPath = __DIR__ . "/../img/" . $productImage['image_url'];
-              if (!file_exists($imageFullPath)) {
-                $imageUrl = "/MIKEPHP/img/default.png";
-              }
-            } else {
-              $imageJson = '[]';
-              $imageUrl = "/MIKEPHP/img/default.jpg";
+            $imageUrl = "/MIKEPHP/img/" . $productImage['image_url'];
+            // $sizeJson = json_decode($productSizeJson['size_json'], true) ?? [];
+            $imageFullPath = __DIR__ . "/../img/" . $productImage['image_url'];
+            if (!file_exists($imageFullPath)) {
+              $imageUrl = "/MIKEPHP/img/default.png";
             }
             ?>
             <img src="<?php echo htmlspecialchars($imageUrl) ?>" class="img-thumbnail"  alt="">
@@ -98,12 +94,12 @@ $cart;
               <section class="flex items-center" style="margin-bottom: 24px; align-items: baseline;">
                 <h6>Size</h6>
                 <div class="flex items-center">
-                  <?php
-                  $disable = 'disabled';
-                  foreach ($sizeJson as $size) {
-                    $sizeNumber = $size[0];
-                    $sizeActi = $size[1];
-                  ?>
+                  <!-- <?php
+                        $disable = 'disabled';
+                        foreach ($sizeJson as $size) {
+                          $sizeNumber = $size[0];
+                          $sizeActi = $size[1];
+                        ?>
                     <button
                       <?php echo $sizeActi ? '' : $disable ?>
                       type="button"
@@ -111,7 +107,7 @@ $cart;
                       onclick="selectSize(this)">
                       <?php echo $sizeNumber ?>
                     </button>
-                  <?php } ?>
+                  <?php } ?> -->
 
 
                 </div>
@@ -252,8 +248,6 @@ $cart;
       </form>
     </div>
   </div>
-</div>
-</div>
 </div>
 <script>
   function decrease() {

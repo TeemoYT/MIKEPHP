@@ -60,6 +60,20 @@ CREATE TABLE IF NOT EXISTS product_categories (
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
+CREATE TABLE IF NOT EXISTS product_colors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT,
+    color_name VARCHAR(100) NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS product_sizes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_color_id INT,
+    size VARCHAR(10) NOT NULL,
+    stock INT DEFAULT 0,
+    FOREIGN KEY (product_color_id) REFERENCES product_colors(id) ON DELETE CASCADE
+);
+ALTER TABLE product_sizes ADD COLUMN disabled BOOLEAN DEFAULT FALSE;
 
 CREATE TABLE IF NOT EXISTS order_status (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -170,17 +184,15 @@ INSERT INTO categories (id, name, slug, description, parent_id) VALUES
 
 ALTER TABLE products ADD COLUMN IF NOT EXISTS slug VARCHAR(255) UNIQUE;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS image_json TEXT;
-ALTER TABLE products ADD COLUMN IF NOT EXISTS size_json TEXT;
+
 
 -- Cập nhật dữ liệu bảng products
-INSERT INTO products (id, name, description, price, image_url, slug, image_json, size_json,trademark_id) VALUES 
+INSERT INTO products (id, name, description, price, image_url, slug, image_json,trademark_id) VALUES 
 (1, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00,  'jordan1.webp', 'nike-air-force-1', 
-   '["jordan1.webp","jordan2.webp","jordan3.webp","jordan4.webp"]',
-   '[["42", true,"20"], ["43", true,"50"], ["41", false,"60"]]',1
+   '["jordan1.webp","jordan2.webp","jordan3.webp","jordan4.webp"]',1
 ),
 (2, 'Adidas Ultraboost', 'Giày chạy bộ thoải mái', 150.00,  'adidas_ultraboost.jpg', 'adidas-ultraboost',
-   '["jordan5.webp","jordan6.webp","jordan7.webp","af1.webp"]',
-   '[["42", false,"70"], ["43", true,"20"], ["41", false,"60"]]',2
+   '["jordan5.webp","jordan6.webp","jordan7.webp","af1.webp"]',2
 )
 ON DUPLICATE KEY UPDATE 
 name = VALUES(name), 
@@ -189,7 +201,6 @@ price = VALUES(price),
 image_url = VALUES(image_url),
 slug = VALUES(slug),
 image_json = VALUES(image_json),
-size_json = VALUES(size_json),
 trademark_id = VALUES(trademark_id);
 INSERT INTO product_categories (product_id, category_id) VALUES (1, 2), (1, 3);
 
