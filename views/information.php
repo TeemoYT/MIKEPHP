@@ -16,11 +16,11 @@ $cart;
 
 ?>
 <div class="information-conatiner">
-  <div class="container">
-    <div class="row">
+  <div class="container" id="img-product">
+    <div class="row row-2">
       <div class="col-6">
-        <div class="row">
-          <div class="col-10">
+        <div class="row row-list-item-img">
+          <div class="col-10 col-img-thumbnail">
             <?php
 
             if ($productImage) {
@@ -36,7 +36,7 @@ $cart;
               $imageUrl = "/MIKEPHP/img/default.jpg";
             }
             ?>
-            <img src="<?php echo htmlspecialchars($imageUrl) ?>" class=" img-thumbnail" style="width: 100%;" alt="">
+            <img src="<?php echo htmlspecialchars($imageUrl) ?>" class="img-thumbnail"  alt="">
           </div>
           <div class="col-2">
             <?php
@@ -49,15 +49,15 @@ $cart;
                 $imagePath = "/MIKEPHP/img/default.png";
               }
             ?>
-              <div class="row"><img style="width: 150px;" src="<?php echo $imagePath; ?>" alt=""></div>
+              <div class="row row-1 "><img class="list-img " src="<?php echo $imagePath; ?>" alt=""></div>
             <?php } ?>
           </div>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-6 col-6-2">
         <tr>
           <td>
-            <div>
+            <div class="name-product">
 
               <h4><?php
                   echo $productItem["name"];
@@ -75,7 +75,8 @@ $cart;
               <p class="ms-1"> | 250k Sold | </p>
               <p class="ms-1">
                 <i class="fa fa-heart-o" aria-hidden="true"></i>
-                <span class="like-text">Đã thích (26,8k)</span></p>
+                <span class="like-text">Đã thích (26,8k)</span>
+              </p>
             </div>
           </td>
           <td>
@@ -89,7 +90,7 @@ $cart;
           <td>
             <div class="flex flex-column">
               <section class="flex items-center">
-              <h6>Vận chuyển</h6>
+                <h6>Vận chuyển</h6>
                 <div class="flex items-center">
                   <p>🚚 Nhận từ 17 Th 03 - 19 Th 03</p>
                 </div>
@@ -146,14 +147,14 @@ $cart;
 <div class="Product-Description">
   <h4>CHI TIẾT SẢN PHẨM</h4>
   <h5>MÔ TẢ SẢN PHẨM</h5>
-  <ul>
-    <li>Dép nữ với thiết kế quai ngang bản to nhún cách điệu, dép được làm bằng chất ulệu da tổng hợp cao cấp nên rất êm mềm và bền bỉ.</li>
+  <ul class="title-1">
+    <li>Dép nữ với thiết kế quai ngang bản to nhún cách điệu, dép được làm bằng chất ulệu da tổng hợp cao cấp nên rất êm mềm và bền bỉ. Dép nữ với thiết kế quai ngang bản to nhún cách điệu, dép được làm bằng chất ulệu da tổng hợp cao cấp nên rất êm mềm và bền bỉ. </li>
     <li>Dép nữ với thiết kế quai ngang bản to nhún cách điệu, dép được làm bằng chất liệu da tổng hợp cao cấp nên rất êm mềm và bền bỉ.</li>
     <li>Dép nữ với thiết kế quai ngang bản to nhún cách điệu, dép được làm bằng chất liệu da tổng hợp cao cấp nên rất êm mềm và bền bỉ.</li>
   </ul>
 
   <h5>CHI TIẾT</h5>
-  <ul>
+  <ul class="title-1">
     <li>Chiều cao: Khoảng 3cm</li>
     <li>Chất liệu: Da mềm tổng hợp cao cấp</li>
     <li>Kiẻu dáng: Dép nữ quai ngang bản to, dép thời trang nữ</li>
@@ -212,10 +213,30 @@ $cart;
 
                 <!-- <hr> -->
               </div>
+
             </div>
-          <?php } ?>
+
+          <?php
+          } ?>
         </div>
       </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
       <!-- <div class="panel">
         <div class="panel-body-comment">
           <form id="commentForm" action="/MIKEPHP/product/<?php echo $slug; ?>" method="post" style="width: 560px;">
@@ -264,13 +285,7 @@ $cart;
 
   });
 
-  function selectSize(button) {
 
-    document.querySelectorAll('.size-btn').forEach(btn => {
-      btn.classList.remove('active');
-      btn.classList.add('btn-light');
-    });
-  }
 
   function selectSize(button) {
 
@@ -290,9 +305,7 @@ $cart;
       event.preventDefault();
     }
   }
-  document.getElementById("commentPost").onclick = function() {
-    comment()
-  };
+
 
   function comment() {
     let slug = window.location.pathname.split("/").pop();
