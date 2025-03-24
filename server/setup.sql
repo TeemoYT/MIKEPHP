@@ -100,9 +100,11 @@ CREATE TABLE IF NOT EXISTS order_items (
     order_id INT,
     product_id INT,
     size VARCHAR(50) NOT NULL,
+    product_color_id INT,
     quantity INT NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_color_id) REFERENCES product_colors(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
@@ -181,33 +183,13 @@ INSERT INTO categories (id, name, slug, description, parent_id) VALUES
 (4, 'Giày cao gót bít mũi', 'giay-cao-got-bit-mui', 'Loại giày cao gót bít mũi', 2),  
 (5, 'Cao gót sandal', 'cao-got-sandal', 'Loại giày cao gót sandal', 2);
 
-
 ALTER TABLE products ADD COLUMN IF NOT EXISTS slug VARCHAR(255) UNIQUE;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS image_json TEXT;
 
-
--- Cập nhật dữ liệu bảng products
-INSERT INTO products (id, name, description, price, image_url, slug, image_json,trademark_id) VALUES 
-(1, 'Nike Air Force 1', 'Giày sneaker kinh điển', 120.00,  'jordan1.webp', 'nike-air-force-1', 
-   '["jordan1.webp","jordan2.webp","jordan3.webp","jordan4.webp"]',1
-),
-(2, 'Adidas Ultraboost', 'Giày chạy bộ thoải mái', 150.00,  'adidas_ultraboost.jpg', 'adidas-ultraboost',
-   '["jordan5.webp","jordan6.webp","jordan7.webp","af1.webp"]',2
-)
-ON DUPLICATE KEY UPDATE 
-name = VALUES(name), 
-description = VALUES(description), 
-price = VALUES(price), 
-image_url = VALUES(image_url),
-slug = VALUES(slug),
-image_json = VALUES(image_json),
-trademark_id = VALUES(trademark_id);
-INSERT INTO product_categories (product_id, category_id) VALUES (1, 2), (1, 3);
-
 -- Cập nhật thông tin người dùng
 INSERT INTO users (id, name, email, password, phone, role) VALUES 
-(1, 'Nguyễn Văn A', 'nguyenvana@example.com', 'hashedpassword1', '0123456789', 'customer'),
-(2, 'Trần Thị B', 'tranthib@example.com', 'hashedpassword2', '0987654321', 'admin')
+(1, 'Nguyễn Văn A', 'admin@gmail.com', '$2y$10$VLkuyzJj9wigZls63PlcN.0PA6Niq5l41ur.twBRcV5jXo6ZcXKeS', '0123456789', 'admin'),
+(2, 'Trần Thị B', 'user@gmail.com', '$2y$10$VLkuyzJj9wigZls63PlcN.0PA6Niq5l41ur.twBRcV5jXo6ZcXKeS', '0987654321', 'user')
 ON DUPLICATE KEY UPDATE 
 name = VALUES(name), 
 email = VALUES(email), 
@@ -227,57 +209,6 @@ city = VALUES(city),
 country = VALUES(country), 
 is_default = VALUES(is_default);
 
--- Cập nhật đơn hàng
-INSERT INTO orders (id, user_id, address_id, total, status_id) VALUES
-(1, 1, 1, 270.00, 2),
-(2, 2, 2, 150.00, 1) 
-ON DUPLICATE KEY UPDATE 
-user_id = VALUES(user_id), 
-address_id = VALUES(address_id), 
-total = VALUES(total), 
-status_id = VALUES(status_id);
-
--- Cập nhật chi tiết đơn hàng
-INSERT INTO order_items (id, order_id, product_id, quantity, price) VALUES
-(1, 1, 1, 1, 120.00),
-(2, 1, 2, 1, 150.00),
-(3, 2, 2, 1, 150.00)
-ON DUPLICATE KEY UPDATE 
-order_id = VALUES(order_id), 
-product_id = VALUES(product_id), 
-quantity = VALUES(quantity), 
-price = VALUES(price);
-
--- Cập nhật thông tin thanh toán
-INSERT INTO payments (id, order_id, payment_method, payment_status, transaction_id) VALUES
-(1, 1, 'credit_card', 'completed', 'TXN123456'),
-(2, 2, 'paypal', 'pending', 'TXN987654')
-ON DUPLICATE KEY UPDATE 
-order_id = VALUES(order_id), 
-payment_method = VALUES(payment_method), 
-payment_status = VALUES(payment_status), 
-transaction_id = VALUES(transaction_id);
-
--- Cập nhật đánh giá sản phẩm
-INSERT INTO reviews (id, user_id, product_id, rating, comment) VALUES
-(1, 1, 1, 5, 'Giày cực kỳ êm chân!'),
-(2, 2, 2, 4, 'Thiết kế đẹp, nhưng hơi chật.')
-ON DUPLICATE KEY UPDATE 
-user_id = VALUES(user_id), 
-product_id = VALUES(product_id), 
-rating = VALUES(rating), 
-comment = VALUES(comment);
-
--- Cập nhật giỏ hàng
-INSERT INTO cart (id, user_id, product_id, quantity, size) VALUES
-(1, 1, 2, 1, 'M'), 
-(2, 2, 1, 2, 'L')
-ON DUPLICATE KEY UPDATE 
-user_id = VALUES(user_id), 
-product_id = VALUES(product_id), 
-quantity = VALUES(quantity), 
-size = VALUES(size);
-
 -- Cập nhật mã giảm giá
 INSERT INTO discount_codes (id, code, discount_percentage, expiry_date, is_active) VALUES
 (1, 'SUMMER10', 10.00, '2025-12-31', TRUE),
@@ -288,23 +219,6 @@ discount_percentage = VALUES(discount_percentage),
 expiry_date = VALUES(expiry_date), 
 is_active = VALUES(is_active);
 
--- Cập nhật giảm giá cho đơn hàng
-INSERT INTO order_discounts (id, order_id, discount_code_id, discount_amount) VALUES
-(1, 1, 1, 27.00)
-ON DUPLICATE KEY UPDATE 
-order_id = VALUES(order_id), 
-discount_code_id = VALUES(discount_code_id), 
-discount_amount = VALUES(discount_amount);
-
--- Cập nhật danh sách yêu thích
-INSERT INTO wishlist (id, user_id, product_id) VALUES
-(1, 1, 2),
-(2, 2, 1)
-ON DUPLICATE KEY UPDATE 
-user_id = VALUES(user_id), 
-product_id = VALUES(product_id);
-
--- Cập nhật lịch sử đăng nhập
 INSERT INTO login_history (id, user_id, login_time, ip_address) VALUES
 (1, 1, NOW(), '192.168.1.1'),
 (2, 2, NOW(), '192.168.1.2')

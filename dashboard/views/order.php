@@ -7,6 +7,7 @@ $order_id = $_GET['order_id'] ?? 0;
 $orderDetails = $orderModule->getOrderDetails($order_id);
 
 
+
 ?>
 
 <div style="overflow-y: auto; max-height: 830px; padding: 20px;">
@@ -83,7 +84,6 @@ $orderDetails = $orderModule->getOrderDetails($order_id);
       <h2>Chi tiết đơn hàng</h2>
 
       <?php
-
       if (!empty($orderDetails)) {
         echo "<h5><small>Mã đơn hàng: #{$orderDetails[0]['order_id']}</small></h5>";
         echo "<p>Sản phẩm: </p>";

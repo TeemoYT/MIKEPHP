@@ -29,9 +29,16 @@ class Module
         return $stmt->execute(array_values($data));
     }
 
-   
-    
-    
+    public function getUserById($userId) {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+            $stmt->bindParam(':id', $userId);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Error getting user: " . $e->getMessage());
+        }
+    }
 }
 
 

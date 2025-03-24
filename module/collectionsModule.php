@@ -15,6 +15,18 @@ class CollectionsModules extends Module{
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getIdNameCategory(){
+        $stmt = $this->db->prepare("SELECT id, name FROM {$this->table} ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getIdFromName($name){
+        $stmt = $this->db->prepare("SELECT id FROM {$this->table} WHERE :name ");
+        $stmt->bindParam(':name', $name, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

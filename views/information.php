@@ -15,7 +15,7 @@ $cart;
 
 
 ?>
-<div class="information-conatiner">
+<div class="information-container">
   <div class="container">
     <div class="row">
       <div class="col-6">
@@ -285,9 +285,7 @@ $cart;
       event.preventDefault();
     }
   }
-  document.getElementById("commentPost").onclick = function() {
-    comment()
-  };
+ 
 
   function comment() {
     let slug = window.location.pathname.split("/").pop();
@@ -300,8 +298,6 @@ $cart;
 
 
   }
-
-
 
 
   document.getElementById("addToCart").onclick = function() {
