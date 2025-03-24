@@ -81,7 +81,7 @@ function renderMenu($categories)
         <?php endif; ?>
       </div>
 
-      <form class="d-flex form-search-1" role="search">
+      <form class="d-flex form-search-1" id="navbar-form" role="search">
         <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
         <?php if (isset($_SESSION['user_id'])) { ?>
           <span class="me-2">
