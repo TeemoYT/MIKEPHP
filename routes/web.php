@@ -16,7 +16,6 @@ require_once __DIR__ ."/../module/loginHistoryModule.php";
 $router = new Router();
 $nameProject = "MIKEPHP";
 
-// Add admin check function
 function checkAdminAccess() {
     if (!isset($_SESSION['user_id'])) {
         header("location:/MIKEPHP/login");
@@ -140,7 +139,6 @@ $router->get('/' . $nameProject . '/register', function () {
     require_once __DIR__ . '/../views/navbar.php';
     require_once __DIR__ . '/../views/register.php';
 });
-
 $router->post('/' . $nameProject . '/login', function () {
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["dangnhap"])) {
         $email = trim($_POST["email"] ?? "");
@@ -152,7 +150,7 @@ $router->post('/' . $nameProject . '/login', function () {
         }
 
         $userModule = new UserModule();
-        $loginResult = $userModule->login($email,$pass);
+        $loginResult = $userModule->login($email, $pass);
 
         if ($loginResult && password_verify($pass, $loginResult["password"])) {
             session_start();
@@ -162,17 +160,19 @@ $router->post('/' . $nameProject . '/login', function () {
             $_SESSION["user_email"] = $loginResult["email"];
             $_SESSION["logged_in"] = true;
 
-            // Record login history
+            // Ghi log login (nếu có)
             $loginHistoryModule = new LoginHistoryModule();
             $ipAddress = $_SERVER['REMOTE_ADDR'];
             $loginHistoryModule->addLoginHistory($loginResult["id"], $ipAddress);
-            
-            setcookie(session_name(), session_id(), [
-                'httponly' => true,
-                'secure' => isset($_SERVER["HTTPS"]),
-                'samesite' => 'Strict'
-            ]);
 
+            // ✅ LƯU COOKIE tự động (KHÔNG dùng DB)
+            $expire = time() + (30 * 24 * 60 * 60); // 30 ngày
+            setcookie("token", base64_encode(json_encode([
+                "email" => $loginResult["email"],
+                "password" => $loginResult["password"] // đã mã hóa từ DB
+            ])), $expire, "/", "", isset($_SERVER["HTTPS"]), true);
+
+            // Chuyển trang
             header("location:/MIKEPHP/");
             exit();
         } else {
@@ -182,6 +182,7 @@ $router->post('/' . $nameProject . '/login', function () {
         echo "Không có dữ liệu được gửi!";
     }
 });
+
 $router->post('/' . $nameProject . '/register', function () {
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["dangky"])) {
         $fullName = isset($_POST["nameUser"]) ? $_POST["nameUser"] : "";
@@ -203,6 +204,24 @@ $router->post('/' . $nameProject . '/register', function () {
         echo "Không có dữ liệu được gửi!";
     }
 });
+$router->get('/' . $nameProject . '/logout', function () {
+    session_start();
+
+    
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+   
+    if (isset($_COOKIE["token"])) {
+        setcookie("token", "", time() - 3600, "/");
+    }
+
+  
+    header("location:/MIKEPHP/login");
+    exit();
+});
+
 
 $router->get('/'.$nameProject.'/cart',function(){
     require_once __DIR__ . '/../views/navbar.php';
@@ -299,7 +318,7 @@ $router->get('/'.$nameProject."/user/account/profile",function(){
     require_once __DIR__ . '/../views/profile.php';
 });
 
-// Get product colors and sizes
+
 $router->get('/' . $nameProject . '/admin/product/colors/:id', function($id) {
     checkAdminAccess();
     ob_clean();
@@ -316,16 +335,16 @@ $router->get('/' . $nameProject . '/admin/product/colors/:id', function($id) {
     exit();
 });
 
-// Product save endpoint
+
 $router->post("/$nameProject/admin/product/save", function() use ($nameProject) {
-    // Clear any previous output
+   
     ob_clean();
     
-    // Set header to JSON
+  
     header('Content-Type: application/json');
     
     try {
-        // Check if user is logged in and is admin
+       
         if (!isset($_SESSION['user_id'])) {
             echo json_encode([
                 'success' => false,
@@ -334,7 +353,6 @@ $router->post("/$nameProject/admin/product/save", function() use ($nameProject) 
             exit;
         }
 
-        // Get user role from database
         $userModule = new UserModule();
         $user = $userModule->getUserById($_SESSION['user_id']);
         
@@ -346,7 +364,7 @@ $router->post("/$nameProject/admin/product/save", function() use ($nameProject) 
             exit;
         }
 
-        // Validate required fields
+      
         if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['trademark_id'])) {
             echo json_encode([
                 'success' => false,
@@ -355,20 +373,18 @@ $router->post("/$nameProject/admin/product/save", function() use ($nameProject) 
             exit;
         }
 
-        // Get the ProductsModule instance
+       
         $productsModule = new ProductsModule();
         
-        // Save the product
+      
         $result = $productsModule->saveProduct($_POST);
         
-        // Return success response
+       
         echo json_encode($result);
         
     } catch (Exception $e) {
-        // Log the error
         error_log("Product save error: " . $e->getMessage());
-        
-        // Return error response
+
         echo json_encode([
             'success' => false,
             'message' => $e->getMessage()
@@ -428,6 +444,8 @@ $router->get('/'.$nameProject.'/admin/customer/:id', function($id) use ($namePro
    exit();
 });
 
+
+
 require_once __DIR__ . '/../server/server.php';
 
 try {
@@ -446,7 +464,24 @@ try {
 } catch (PDOException $e) {
     die("Lỗi lấy sản phẩm: " . $e->getMessage());
 }
+try {
+    $db = Database::getInstance()->getConnection();
+    $stmt = $db->query("SELECT slug, name, id FROM categories"); 
+    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    foreach ($categories as $category) {
+        $slug = $category['slug'];
+        $name = $category['name'];
+        $category_id = $category['id'];
 
+        $router->get("/$nameProject/collections/$slug", function () use ($slug, $name, $category_id) {
+            $controller = new CollectionsController();
+            $controller->showCollection($slug, $name, $category_id);
+        });
+    }
+    
+} catch (PDOException $e) {
+    die("Lỗi lấy danh mục: " . $e->getMessage());
+}
 
 return $router;

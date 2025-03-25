@@ -15,7 +15,7 @@ $trademarkList = $trademarks->getAllTrademarks();
 
 $productColorModule = new ProductColorModule();
 
-// Get colors data for all products
+
 $productColorsData = [];
 foreach ($productItem as $item) {
     $colors = $productColorModule->getProductColorsAndSizes($item['product_id']);
@@ -25,7 +25,7 @@ foreach ($productItem as $item) {
 
 ?>
 
-<div style="overflow-y: auto; height: 750px;">
+<div style="overflow-y: auto; height: 750px; overflow-x:hidden;">
   <table class="table">
     <thead>
       <tr>
@@ -49,6 +49,8 @@ foreach ($productItem as $item) {
         if (empty($item["image_url"]) || !file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
           $imagePath = "/MIKEPHP/img/default.png";
         }
+        $priceFormatted = number_format($item['price'], 0, ',', '.') . ' vnđ';
+        $total_stockFormatted = number_format($item['total_stock'], 0, ',', '.');
         echo "
         <tr>
           <th scope='row'>
@@ -59,8 +61,8 @@ foreach ($productItem as $item) {
         <td>{$item['category_names']}</td>
       <td>{$item['product_name']}</td>
       <td>{$item['trademark_name']}</td>
-      <td>{$item['price']}</td>
-      <td>{$item['total_stock']}</td>
+      <td>{$priceFormatted}</td>
+      <td>{$total_stockFormatted}</td>
       <td>
             <button data-id='{$item['product_id']}' class='btn btn-primary edit-btn'>
               <i class='fa fa-pencil' aria-hidden='true'></i> Sửa
@@ -74,6 +76,9 @@ foreach ($productItem as $item) {
       ?>
     </tbody>
   </table>
+
+
+
 
   <!-- Product Popup -->
   <div id="productPopup" class="popup-overlay" style="display: none;overflow-y: auto;">
@@ -115,7 +120,7 @@ foreach ($productItem as $item) {
           <label for="productThumb">Ảnh đại diện:</label>
           <input type="file" id="productThumb" class="form-control" accept="image/*">
           <div id="thumbPreview" class="mt-2 position-relative d-inline-block">
-            <!-- Thumb preview will be added here -->
+
                   </div>
                 </div>
 
@@ -149,7 +154,7 @@ foreach ($productItem as $item) {
         <div class="form-group mb-3">
           <label>Danh mục:</label>
           <div class="category-container d-flex flex-wrap gap-2">
-            <!-- Selected categories will be shown here -->
+
           </div>
           <div class="mt-2">
             <select id="categorySelect" class="form-control">
@@ -171,16 +176,15 @@ foreach ($productItem as $item) {
   </div>
 </div>
 
-<!-- Replace CKEditor Classic with Decoupled Document Editor -->
 <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/decoupled-document/ckeditor.js"></script>
 
 <script>
-let categoriesData = []; // Declare in global scope
-const productColorsData = <?= json_encode($productColorsData, JSON_PRETTY_PRINT) ?>; // Add this line
-let editor; // Declare editor variable
+let categoriesData = []; 
+const productColorsData = <?= json_encode($productColorsData, JSON_PRETTY_PRINT) ?>; 
+let editor; 
 
   document.addEventListener("DOMContentLoaded", function() {
-  // Initialize CKEditor Decoupled Document Editor
+ 
   DecoupledEditor
     .create(document.querySelector('#productDescription'), {
       toolbar: [
@@ -234,9 +238,8 @@ let editor; // Declare editor variable
   categoriesData = <?= json_encode($categoriesModule->getIdNameCategory(), JSON_HEX_TAG) ?>;
   const productCategoriesData = <?= json_encode($productCategoriesItem, JSON_HEX_TAG) ?>;
 
-  // Use event delegation for better performance
   document.addEventListener('click', function(e) {
-    // Handle add color button
+
     if (e.target.closest('.add-color')) {
       const colorContainer = document.getElementById('colorContainer');
       const colorSection = document.createElement('div');
@@ -258,7 +261,7 @@ let editor; // Declare editor variable
       colorContainer.insertBefore(colorSection, e.target.closest('.add-color'));
     }
 
-    // Handle add size button
+ 
     if (e.target.closest('.add-size')) {
       const sizeContainer = e.target.closest('.size-container');
       const sizeItem = document.createElement('div');
@@ -271,30 +274,29 @@ let editor; // Declare editor variable
       sizeContainer.insertBefore(sizeItem, e.target.closest('.add-size'));
     }
 
-    // Handle remove size button
+
     if (e.target.closest('.remove-size')) {
       const sizeItem = e.target.closest('.size-item');
       sizeItem.remove();
     }
 
-    // Handle remove color button
+
     if (e.target.closest('.remove-color')) {
       const colorSection = e.target.closest('.color-section');
       colorSection.remove();
     }
 
-    // Handle remove thumb image
+
     if (e.target.closest('.remove-thumb')) {
       document.getElementById('thumbPreview').innerHTML = '';
       document.getElementById('productThumb').value = '';
     }
 
-    // Handle remove product image
     if (e.target.closest('.remove-image')) {
       e.target.closest('.position-relative').remove();
     }
 
-    // Handle edit product button
+
     if (e.target.closest('.edit-btn')) {
       const productId = e.target.closest('.edit-btn').dataset.id;
       const product = productData.find(item => item.product_id == productId);
@@ -303,7 +305,7 @@ let editor; // Declare editor variable
       }
     }
 
-    // Handle delete product button
+
     if (e.target.closest('.delete-btn')) {
       const productId = e.target.closest('.delete-btn').dataset.id;
       if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
@@ -311,7 +313,7 @@ let editor; // Declare editor variable
       }
     }
 
-    // Handle remove category
+
     if (e.target.closest('.remove-category')) {
       const categoryDiv = e.target.closest('.category');
       const categoryId = categoryDiv.dataset.id;
@@ -327,7 +329,7 @@ let editor; // Declare editor variable
     }
   });
 
-  // Handle add category
+
   document.querySelector('.add-category').addEventListener('click', function() {
     const select = document.getElementById('categorySelect');
     const selectedOption = select.options[select.selectedIndex];
@@ -338,15 +340,15 @@ let editor; // Declare editor variable
       categoryDiv.className = 'category';
       categoryDiv.dataset.id = selectedOption.value;
       categoryDiv.innerHTML = `
-        <span class="badge bg-primary me-2">${selectedOption.text}</span>
-        <button class="btn btn-danger btn-sm remove-category">×</button>
+        <span class="badge me-2">${selectedOption.text}</span>
+        <button class="btnCategory remove remove-category">×</button>
       `;
               categoryContainer.appendChild(categoryDiv);
       select.remove(select.selectedIndex);
     }
   });
 
-  // Handle image previews
+
   const handleImagePreview = (file, previewElement) => {
     const reader = new FileReader();
     reader.onload = function(e) {
@@ -360,7 +362,7 @@ let editor; // Declare editor variable
     reader.readAsDataURL(file);
   };
 
-  // Thumb image preview
+
   document.getElementById('productThumb').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -377,7 +379,7 @@ let editor; // Declare editor variable
     }
   });
 
-  // Product images preview
+
   document.getElementById('productImages').addEventListener('change', function(e) {
     const files = e.target.files;
     const preview = document.getElementById('imagesPreview');
@@ -391,23 +393,23 @@ let editor; // Declare editor variable
 function openAddProductPopup() {
   document.getElementById('popupTitle').textContent = 'Thêm sản phẩm mới';
   
-  // Reset all form fields
+
   document.getElementById('productId').value = '';
   document.getElementById('productName').value = '';
   if (editor) {
-    editor.setData(''); // Reset CKEditor content
+    editor.setData(''); 
   }
   document.getElementById('productPrice').value = '';
   document.getElementById('productTrademark').selectedIndex = 0;
   document.getElementById('productThumb').value = '';
   document.getElementById('productImages').value = '';
   
-  // Clear previews
+
   document.getElementById('thumbPreview').innerHTML = '';
   document.getElementById('imagesPreview').innerHTML = '';
-  document.querySelector('.category-container').innerHTML = ''; // Clear categories
+  document.querySelector('.category-container').innerHTML = ''; 
   
-  // Reset category select
+
   const select = document.getElementById('categorySelect');
   select.innerHTML = '<option value="">Chọn danh mục...</option>';
   categoriesData.forEach(category => {
@@ -417,7 +419,6 @@ function openAddProductPopup() {
     select.appendChild(option);
   });
   
-  // Reset color container with default empty state
   const colorContainer = document.getElementById('colorContainer');
   colorContainer.innerHTML = `
     <div class="color-section mb-3">
@@ -437,27 +438,27 @@ function openAddProductPopup() {
     <button class="btn btn-primary add-color"><i class="fa fa-plus"></i> Thêm Màu</button>
   `;
 
-  // Show popup
+
   document.getElementById('productPopup').style.display = 'block';
 }
 
 function openEditProductPopup(product) {
   document.getElementById('popupTitle').textContent = 'Chỉnh sửa sản phẩm';
   
-  // Set form fields
+
   document.getElementById('productId').value = product.product_id;
   document.getElementById('productName').value = product.product_name;
   if (editor) {
-    editor.setData(product.description); // Set CKEditor content
+    editor.setData(product.description); 
   }
   document.getElementById('productPrice').value = product.price;
   document.getElementById('productTrademark').value = product.trademark_id;
   
-  // Clear and set previews
+
   document.getElementById('thumbPreview').innerHTML = '';
   document.getElementById('imagesPreview').innerHTML = '';
   
-  // Set thumb preview if exists
+
   if (product.image_url) {
     document.getElementById('thumbPreview').innerHTML = `
       <div class="position-relative">
@@ -467,7 +468,7 @@ function openEditProductPopup(product) {
     `;
   }
   
-  // Set additional images preview if exists
+ 
   if (product.image_json) {
     const images = JSON.parse(product.image_json);
     images.forEach(image => {
@@ -480,7 +481,7 @@ function openEditProductPopup(product) {
     });
   }
   
-  // Set categories
+ 
   document.querySelector('.category-container').innerHTML = '';
   const productCategories = product.category_names.split(', ');
   productCategories.forEach(categoryName => {
@@ -490,14 +491,14 @@ function openEditProductPopup(product) {
       categoryDiv.className = 'category';
       categoryDiv.dataset.id = category.id;
       categoryDiv.innerHTML = `
-        <span class="badge bg-primary me-2">${category.name}</span>
-        <button class="btn btn-danger btn-sm remove-category">×</button>
+        <span class="badge  me-2">${category.name}</span>
+        <button class=" btnCategory remove remove-category">×</button>
       `;
       document.querySelector('.category-container').appendChild(categoryDiv);
     }
   });
   
-  // Reset category select
+ 
   const select = document.getElementById('categorySelect');
   select.innerHTML = '<option value="">Chọn danh mục...</option>';
   categoriesData.forEach(category => {
@@ -509,11 +510,10 @@ function openEditProductPopup(product) {
     }
   });
   
-  // Set colors and sizes
+ 
   const colorContainer = document.getElementById('colorContainer');
   colorContainer.innerHTML = '';
-  
-  // Get colors data for the current product
+
   const productColors = productColorsData[product.product_id] || [];
 
   
@@ -523,7 +523,7 @@ function openEditProductPopup(product) {
       const colorSection = document.createElement('div');
       colorSection.className = 'color-section mb-3';
       
-      // Create sizes HTML
+  
       let sizesHtml = '';
       if (colorData.sizes && Array.isArray(colorData.sizes)) {
         sizesHtml = colorData.sizes.map(size => {
@@ -551,7 +551,7 @@ function openEditProductPopup(product) {
       colorContainer.appendChild(colorSection);
     });
   } else {
-    // Add default empty color section if no colors exist
+  
     const colorSection = document.createElement('div');
     colorSection.className = 'color-section mb-3';
     colorSection.innerHTML = `
@@ -571,13 +571,12 @@ function openEditProductPopup(product) {
     colorContainer.appendChild(colorSection);
   }
   
-  // Add the "Add Color" button
+
   const addColorButton = document.createElement('button');
   addColorButton.className = 'btn btn-primary add-color';
   addColorButton.innerHTML = '<i class="fa fa-plus"></i> Thêm Màu';
   colorContainer.appendChild(addColorButton);
-  
-  // Show popup
+
   document.getElementById('productPopup').style.display = 'block';
 }
 
@@ -586,20 +585,20 @@ function closePopup() {
 }
 
 function saveProduct() {
-  // Get form values
+
   const productId = document.getElementById('productId').value;
   const productName = document.getElementById('productName').value.trim();
   const description = editor ? editor.getData().trim() : '';
   const price = document.getElementById('productPrice').value;
   const trademarkId = document.getElementById('productTrademark').value;
   
-  // Generate slug from product name
+  
   const slug = productName
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
   
-  // Validate required fields
+
   if (!productName) {
     alert('Vui lòng nhập tên sản phẩm');
     return;
@@ -617,14 +616,13 @@ function saveProduct() {
     return;
   }
   
-  // Get selected categories
   const categories = Array.from(document.querySelectorAll('.category')).map(cat => cat.dataset.id);
   if (categories.length === 0) {
     alert('Vui lòng chọn ít nhất một danh mục');
     return;
   }
   
-  // Get colors and sizes
+
   const colors = [];
   document.querySelectorAll('.color-section').forEach(colorSection => {
     const colorName = colorSection.querySelector('.color-name').value.trim();

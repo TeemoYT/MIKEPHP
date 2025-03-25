@@ -16,10 +16,9 @@
                     <div class="product-grid-thumb">
                         <img src="<?php echo $imagePath; ?>" class="card-img-top" alt="">
                         <div class="card-body">
-                            <span class="card-text"><?php echo $row['name'] ?></p>
-                                <span class="card-text"><?php echo $row['description'] ?></p>
-                                    <span class="card-price text-danger"><?php echo $row['price'] ?> đ </span>
-                        </div>
+                    <h3 class="card-text"><?php echo$row['name'] ?></h3>
+                    <span class="card-price text-danger"><?php echo $row['price'] ?> đ </span>
+                </div>
                     </div>
                 </a>
 

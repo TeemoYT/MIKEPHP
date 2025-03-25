@@ -2,6 +2,23 @@
 include("./server/setup.php");
 require_once "./module/userModule.php";
 session_start(); 
+if (!isset($_SESSION["logged_in"]) && isset($_COOKIE["auto_login"])) {
+    $data = json_decode(base64_decode($_COOKIE["auto_login"]), true);
+
+    if ($data && isset($data["email"], $data["password"])) {
+        $userModule = new UserModule();
+        $loginResult = $userModule->login($data["email"], null);
+
+        if ($loginResult && $data["password"] === $loginResult["password"]) {
+            $_SESSION["user_id"] = $loginResult["id"];
+            $_SESSION["user_email"] = $loginResult["email"];
+            $_SESSION["logged_in"] = true;
+        } else {
+            // Nếu cookie không hợp lệ, xoá luôn
+            setcookie("token", "", time() - 3600, "/");
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

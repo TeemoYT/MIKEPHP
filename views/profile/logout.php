@@ -7,14 +7,14 @@
         <button id="cancel-logout">Hủy</button>
     </div>
 </div>
-
+</div>
 <script>
     document.getElementById("logout-button").addEventListener("click", function() {
         document.getElementById("logout-confirm").style.display = "flex";
     });
     
     document.getElementById("confirm-logout").addEventListener("click", function() {
-        window.location.href = "/logout.php"; // Điều hướng đến trang xử lý đăng xuất
+        window.location.href = "/MIKEPHP/logout";
     });
     
     document.getElementById("cancel-logout").addEventListener("click", function() {

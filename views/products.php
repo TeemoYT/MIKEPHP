@@ -19,7 +19,7 @@
             }
 
         ?>
-        <a  class="col-12 col-xs-custom-6 col-sm-3 col-lg-3 mb-32px nav-link me-2 ms-2" href="/MIKEPHP/product/<?php echo$row['slug'] ?>">
+        <a  class="col-12 col-xs-custom-5 col-sm-3 col-lg-3 mb-32px nav-link me-2 ms-2" href="/MIKEPHP/product/<?php echo$row['slug'] ?>">
             <div class="product-grid-thumb">
                 <img src="<?php echo $imagePath; ?>" class="card-img-top" alt="">
                 <div class="card-body">

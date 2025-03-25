@@ -14,6 +14,7 @@ $imageFullPath;
 $cart;
 
 
+
 ?>
 <div class="information-conatiner">
   <div class="container" id="img-product">
@@ -141,7 +142,7 @@ $cart;
 </div>
 <!-- Mô tả -->
 <div class="Product-Description">
-  <h4>CHI TIẾT SẢN PHẨM</h4>
+  <!-- <h4>CHI TIẾT SẢN PHẨM</h4>
   <h5>MÔ TẢ SẢN PHẨM</h5>
   <ul class="title-1">
     <li>Dép nữ với thiết kế quai ngang bản to nhún cách điệu, dép được làm bằng chất ulệu da tổng hợp cao cấp nên rất êm mềm và bền bỉ. Dép nữ với thiết kế quai ngang bản to nhún cách điệu, dép được làm bằng chất ulệu da tổng hợp cao cấp nên rất êm mềm và bền bỉ. </li>
@@ -154,7 +155,10 @@ $cart;
     <li>Chiều cao: Khoảng 3cm</li>
     <li>Chất liệu: Da mềm tổng hợp cao cấp</li>
     <li>Kiẻu dáng: Dép nữ quai ngang bản to, dép thời trang nữ</li>
-  </ul>
+  </ul> -->
+
+  <?php echo $productItem['description'] ?>
+
 </div>
 
 <!-- đánh giá sản phẩm -->

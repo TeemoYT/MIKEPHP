@@ -61,16 +61,10 @@ $customers = $customerModule->getAllCustomers();
     </div>
 </div>
 
-<style>
-
-</style>
-
 <script>
 async function showCustomerDetail(customerId) {
     try {
-        console.log('Fetching customer details for ID:', customerId);
         
-        // Add credentials to the request
         const response = await fetch(`/MIKEPHP/admin/customer/${customerId}`, {
             method: 'GET',
             headers: {
@@ -81,7 +75,7 @@ async function showCustomerDetail(customerId) {
 
 
         const customer = await response.json();
-        console.log('Customer data:', customer);
+       
         
         if (customer.success) {
             const data = customer.data;
